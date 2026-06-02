@@ -1,4 +1,5 @@
 "use client";
+import { PunchSimulatorGame } from "@/components/games/punch-simulator";
 import { SoupOrSoapGame } from "@/components/games/soup-or-soap";
 import { Button } from "@/components/ui/button";
 import { getGameById } from "@/lib/game-data";
@@ -54,6 +55,8 @@ export function GamePageClient({ slug }: GamePageClientProps) {
     switch (game.id) {
       case "soup-or-soap":
         return <SoupOrSoapGame key={gameKey} />;
+      case "punch-simulator":
+        return <PunchSimulatorGame key={gameKey} />;
       default:
         return <div>Game component not found</div>;
     }
