@@ -18,7 +18,7 @@ export const games: Game[] = [
     },
     {
         id: "punch-simulator",
-        title: "Punch Yourself simulator",
+        title: "Punch Yourself Simulator",
         description: "Virtually punch yourself with increasingly dramatic pain levels!",
         emoji: "👊",
         category: "weird",
