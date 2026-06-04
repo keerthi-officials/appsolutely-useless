@@ -38,7 +38,7 @@ export function GamePageClient({ slug }: GamePageClientProps) {
 
   if (!game) {
     return (
-      <div className="max-w-7xl sm:px-6 lg:px-8 mx-auto px-4 pt-20 pb-8 text-center">
+      <div className="max-w-7xl sm:px-6 lg:px-8 mx-auto px-4 py-8 text-center">
         <div className="text-6xl mb-4">🤔</div>
         <h1 className="text-2xl font-bold mb-4">Game not found</h1>
         <p className="text-muted-foreground mb-6">
@@ -59,14 +59,14 @@ export function GamePageClient({ slug }: GamePageClientProps) {
       case "punch-simulator":
         return <PunchSimulatorGame key={gameKey} />;
       case "waiting-game":
-        return <WaitingGame key={gameKey} />
+        return <WaitingGame key={gameKey} />;
       default:
         return <div>Game component not found</div>;
     }
   };
 
   return (
-    <div className="max-w-7xl sm:px-6 lg:px-8 mx-auto px-4 pt-20 pb-8">
+    <div className="max-w-7xl sm:px-6 lg:px-8 mx-auto px-4 py-8">
       <div className="game-container">{renderGame()}</div>
     </div>
   );
