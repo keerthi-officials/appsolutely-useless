@@ -1,10 +1,10 @@
 export interface Game {
-    id: string;
-    title: string;
-    description: string;
-    emoji: string;
-    category: 'pointless' | 'annoying' | "weird" | "confusing";
-    estimatedTime: string;
+  id: string;
+  title: string;
+  description: string;
+  emoji: string;
+  category: "pointless" | "annoying" | "weird" | "confusing";
+  estimatedTime: string;
 }
 
 export const games: Game[] = [
@@ -127,9 +127,9 @@ export const games: Game[] = [
 ];
 
 export const getGameById = (id: string): Game | undefined => {
-    return games.find(game => game.id === id);
-}
+  return games.find((game) => game.id === id);
+};
 
 export const getRandomGame = (): Game => {
-    return games[Math.floor(Math.random() * games.length)];
-}
+  return games[Math.floor(Math.random() * games.length)];
+};

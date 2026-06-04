@@ -1,4 +1,4 @@
-import {GamePageClient} from "./view";
+import { GamePageClient } from "./view";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
