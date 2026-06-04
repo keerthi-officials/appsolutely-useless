@@ -38,6 +38,7 @@ export default function RootLayout({
         "font-sans",
         inter.variable,
       )}
+      suppressHydrationWarning
     >
       <body className="h-full bg-linear-to-br from-purple-50 via-white to-teal-50">
         <div className="min-h-full flex flex-col">
