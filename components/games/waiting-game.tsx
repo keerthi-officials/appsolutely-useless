@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Button } from "../ui/button";
+import { useState, useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { incrementTaps } from "@/lib/storage";
 
 interface Medal {
   name: string;
@@ -148,6 +149,7 @@ export function WaitingGame() {
   }, [isWaiting, currentMedal, earnedMedals]);
 
   const startWaiting = () => {
+    incrementTaps();
     setIsWaiting(true);
     setTimeWaited(0);
     startTimeRef.current = Date.now();
@@ -155,6 +157,7 @@ export function WaitingGame() {
   };
 
   const stopWaiting = () => {
+    incrementTaps();
     setIsWaiting(false);
     if (timeWaited > bestTime) {
       setBestTime(timeWaited);
@@ -163,6 +166,7 @@ export function WaitingGame() {
   };
 
   const reset = () => {
+    incrementTaps();
     setIsWaiting(false);
     setTimeWaited(0);
     setCurrentMedal(null);
@@ -201,7 +205,7 @@ export function WaitingGame() {
         </p>
       </CardHeader>
       <CardContent className="space-y-6">
-        {isWaiting && timeWaited == 0 ? (
+        {!isWaiting && timeWaited === 0 ? (
           <div className="text-center space-y-4">
             <div className="text-6xl">⏰</div>
             <div className="text-lg">Ready to test your patience?</div>
@@ -243,7 +247,7 @@ export function WaitingGame() {
               {isWaiting ? (
                 <Button
                   onClick={stopWaiting}
-                  variant={"destructive"}
+                  variant="destructive"
                   className="w-full"
                 >
                   I Give Up! (Stop Waiting)

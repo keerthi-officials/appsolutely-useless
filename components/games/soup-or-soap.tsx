@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "../ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { incrementTaps } from "@/lib/storage";
 
 interface Question {
   imageUrl: string;
@@ -53,6 +55,7 @@ export function SoupOrSoapGame() {
   const question = questions[currentQuestion];
 
   const handleAnswer = (answer: "soup" | "soap") => {
+    incrementTaps();
     setUserAnswer(answer);
     setShowAnswer(true);
     if (answer === question.answer) {
@@ -62,6 +65,7 @@ export function SoupOrSoapGame() {
   };
 
   const nextQuestion = () => {
+    incrementTaps();
     if (currentQuestion + 1 >= questions.length) {
       setGameOver(true);
     } else {
@@ -72,6 +76,7 @@ export function SoupOrSoapGame() {
   };
 
   const resetGame = () => {
+    incrementTaps();
     setCurrentQuestion(0);
     setScore(0);
     setShowAnswer(false);
@@ -83,7 +88,7 @@ export function SoupOrSoapGame() {
     return (
       <Card className="max-w-md mx-auto">
         <CardHeader className="text-center">
-          <CardTitle>🏆Game Over!</CardTitle>
+          <CardTitle>🏆 Game Over!</CardTitle>
         </CardHeader>
         <CardContent className="text-center space-y-4">
           <div className="text-4xl font-bold">
@@ -107,8 +112,11 @@ export function SoupOrSoapGame() {
   return (
     <Card className="max-w-md mx-auto">
       <CardHeader>
-        <div lang="flex item-center justify-between">
-          <CardTitle>Is it Soup or Soap?</CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle>Is It Soup or Soap?</CardTitle>
+          <Badge>
+            {currentQuestion + 1}/{questions.length}
+          </Badge>
         </div>
         <div className="text-center">
           <div className="text-2xl font-bold">Score: {score}</div>
@@ -118,12 +126,12 @@ export function SoupOrSoapGame() {
         <div className="relative">
           <img
             src={question.imageUrl}
-            alt="soup or soap"
-            className="w-full h-64 object-cover rounded-lg filter blur-sm hover:blur-none"
+            alt="Mysterious substance"
+            className="w-full h-64 object-cover rounded-lg filter blur-sm hover:blur-none transition-all duration-300"
           />
           <div className="absolute inset-0 bg-black/20 rounded-lg flex items-center justify-center">
             <div className="text-white text-lg font-bold bg-black/50 px-3 py-1 rounded">
-              🤔 What is htis?
+              🤔 What is this?
             </div>
           </div>
         </div>
