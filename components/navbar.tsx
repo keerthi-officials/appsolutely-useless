@@ -34,7 +34,7 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="hidden md:flex fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b">
+      <nav className="hidden lg:flex fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-2">
@@ -60,6 +60,30 @@ export function Navbar() {
                 </Button>
               ))}
             </div>
+          </div>
+        </div>
+      </nav>
+
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-t">
+        <div className="safe-area-inset-bottom">
+          <div className="flex items-center justify-around py-2 px-4">
+            {navItems.map((item) => (
+              <Button
+                key={item.href}
+                variant={pathname === item.href ? "default" : "ghost"}
+                size="sm"
+                asChild
+                className="flex-col h-auto py-2 px-2 min-w-0"
+              >
+                <Link
+                  href={item.href}
+                  className="flex flex-col items-center space-y-1"
+                >
+                  <item.icon className="w-4 h-4" />
+                  <span className="text-xs">{item.label}</span>
+                </Link>
+              </Button>
+            ))}
           </div>
         </div>
       </nav>
