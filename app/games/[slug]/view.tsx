@@ -4,8 +4,10 @@ import { PunchSimulatorGame } from "@/components/games/punch-simulator";
 import { SoupOrSoapGame } from "@/components/games/soup-or-soap";
 import { WaitingGame } from "@/components/games/waiting-game";
 import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { getGameById } from "@/lib/game-data";
-import { ArrowLeft } from "lucide-react";
+import { updateGameStats } from "@/lib/storage";
+import { ArrowLeft, RotateCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -15,7 +17,6 @@ interface GamePageClientProps {
 
 export function GamePageClient({ slug }: GamePageClientProps) {
   const router = useRouter();
-  const [startTime, setStartTime] = useState<number>(0);
   const [gameKey, setGameKey] = useState<number>(0);
 
   const game = getGameById(slug);
@@ -24,17 +25,23 @@ export function GamePageClient({ slug }: GamePageClientProps) {
     if (!game) return;
 
     const now = Date.now();
-    setStartTime(now);
+
+    updateGameStats(game.id, {
+      timesPlayed: 1,
+      timeSpent: 0,
+    });
 
     return () => {
       const timeSpent = Math.floor((Date.now() - now) / 1000);
-      // store data
+      updateGameStats(game.id, {
+        timesPlayed: 0,
+        timeSpent,
+      });
     };
   }, [game, gameKey]);
 
   const resetGame = () => {
     setGameKey((prev) => prev + 1);
-    setStartTime(Date.now());
   };
 
   if (!game) {
@@ -70,6 +77,39 @@ export function GamePageClient({ slug }: GamePageClientProps) {
 
   return (
     <div className="max-w-7xl sm:px-6 lg:px-8 mx-auto px-4 py-8">
+      <Card className="mb-6">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => router.push("/games")}
+              >
+                <ArrowLeft className="w-4 h-4" />
+              </Button>
+              <div>
+                <CardTitle className="flex items-center space-x-2">
+                  <span className="text-2xl">{game.emoji}</span>
+                  <span>{game.title}</span>
+                </CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {game.description}
+                </p>
+              </div>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={resetGame}
+              className="flex items-center space-x-2"
+            >
+              <RotateCw className="w-4 h-4" />
+              <span>Reset</span>
+            </Button>
+          </div>
+        </CardHeader>
+      </Card>
       <div className="game-container">{renderGame()}</div>
     </div>
   );
