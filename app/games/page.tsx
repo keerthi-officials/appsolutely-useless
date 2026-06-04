@@ -1,17 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { GameCard } from "@/components/game-card";
 import { Input } from "@/components/ui/input";
 import { Game, games } from "@/lib/game-data";
-import { Heart, Play, Search } from "lucide-react";
-import Link from "next/link";
+import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function GamePage() {
@@ -64,37 +56,7 @@ export default function GamePage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredGames.map((game) => (
-            <Card
-              key={game.id}
-              className="group hover:shadow-lg hover:scale-[1.02] relative overflow-hidden"
-            >
-              <Link href={`/games/${game.id}`}>
-                <CardHeader className="pb-2 flex flex-col space-y-1.5">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <span className="text-2xl">{game.emoji}</span>
-                      </div>
-                      <h1 className="font-semibold leading-none tracking-tight text-lg group-hover:text-primary transition-colors">
-                        {game.title}
-                      </h1>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="mb-3">
-                    {game.description}
-                  </CardDescription>
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <span>🕜 {game.estimatedTime}</span>
-                  </div>
-                  <Button className="w-full mt-3 group-hover:bg-primary/90 transition-colors">
-                    <Play className="w-4 h-4 mr-2" />
-                    Play now
-                  </Button>
-                </CardContent>
-              </Link>
-            </Card>
+            <GameCard key={game.id} game={game} />
           ))}
         </div>
       )}
