@@ -1,4 +1,5 @@
 "use client";
+import { BananaMoodGame } from "@/components/games/banana-mood";
 import { ChickenOrCeoGame } from "@/components/games/chicken-or-ceo";
 import { PunchSimulatorGame } from "@/components/games/punch-simulator";
 import { SoupOrSoapGame } from "@/components/games/soup-or-soap";
@@ -70,6 +71,8 @@ export function GamePageClient({ slug }: GamePageClientProps) {
         return <WaitingGame key={gameKey} />;
       case "chicken-or-ceo":
         return <ChickenOrCeoGame key={gameKey} />;
+      case "banana-mood":
+        return <BananaMoodGame key={gameKey} />;
       default:
         return <div>Game component not found</div>;
     }
