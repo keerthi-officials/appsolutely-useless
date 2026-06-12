@@ -3,6 +3,7 @@ import { BananaMoodGame } from "@/components/games/banana-mood";
 import { ChickenOrCeoGame } from "@/components/games/chicken-or-ceo";
 import { PunchSimulatorGame } from "@/components/games/punch-simulator";
 import { SoupOrSoapGame } from "@/components/games/soup-or-soap";
+import { TapToScreamGame } from "@/components/games/tap-to-scream";
 import { WaitingGame } from "@/components/games/waiting-game";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -73,6 +74,8 @@ export function GamePageClient({ slug }: GamePageClientProps) {
         return <ChickenOrCeoGame key={gameKey} />;
       case "banana-mood":
         return <BananaMoodGame key={gameKey} />;
+      case "tap-to-scream":
+        return <TapToScreamGame key={gameKey} />;
       default:
         return <div>Game component not found</div>;
     }
