@@ -5,6 +5,7 @@ import { FortuneCookieGame } from "@/components/games/fortune-cookie";
 import { PunchSimulatorGame } from "@/components/games/punch-simulator";
 import { SoupOrSoapGame } from "@/components/games/soup-or-soap";
 import { TapToScreamGame } from "@/components/games/tap-to-scream";
+import { UselessButtonGame } from "@/components/games/useless-button";
 import { WaitingGame } from "@/components/games/waiting-game";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -78,7 +79,9 @@ export function GamePageClient({ slug }: GamePageClientProps) {
       case "tap-to-scream":
         return <TapToScreamGame key={gameKey} />;
       case "fortune-cookie":
-        return <FortuneCookieGame key={gameKey} />
+        return <FortuneCookieGame key={gameKey} />;
+      case "useless-button":
+        return <UselessButtonGame key={gameKey} />;
       default:
         return <div>Game component not found</div>;
     }
