@@ -3,6 +3,7 @@ import { BananaMoodGame } from "@/components/games/banana-mood";
 import { ChickenOrCeoGame } from "@/components/games/chicken-or-ceo";
 import { FortuneCookieGame } from "@/components/games/fortune-cookie";
 import { PunchSimulatorGame } from "@/components/games/punch-simulator";
+import { RockNftGame } from "@/components/games/rock-nft";
 import { SoupOrSoapGame } from "@/components/games/soup-or-soap";
 import { TapToScreamGame } from "@/components/games/tap-to-scream";
 import { UselessButtonGame } from "@/components/games/useless-button";
@@ -82,6 +83,8 @@ export function GamePageClient({ slug }: GamePageClientProps) {
         return <FortuneCookieGame key={gameKey} />;
       case "useless-button":
         return <UselessButtonGame key={gameKey} />;
+      case "rock-nft":
+        return <RockNftGame key={gameKey} />;
       default:
         return <div>Game component not found</div>;
     }
