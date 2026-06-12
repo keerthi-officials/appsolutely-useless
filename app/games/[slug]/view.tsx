@@ -1,6 +1,7 @@
 "use client";
 import { BananaMoodGame } from "@/components/games/banana-mood";
 import { ChickenOrCeoGame } from "@/components/games/chicken-or-ceo";
+import { FortuneCookieGame } from "@/components/games/fortune-cookie";
 import { PunchSimulatorGame } from "@/components/games/punch-simulator";
 import { SoupOrSoapGame } from "@/components/games/soup-or-soap";
 import { TapToScreamGame } from "@/components/games/tap-to-scream";
@@ -76,6 +77,8 @@ export function GamePageClient({ slug }: GamePageClientProps) {
         return <BananaMoodGame key={gameKey} />;
       case "tap-to-scream":
         return <TapToScreamGame key={gameKey} />;
+      case "fortune-cookie":
+        return <FortuneCookieGame key={gameKey} />
       default:
         return <div>Game component not found</div>;
     }
