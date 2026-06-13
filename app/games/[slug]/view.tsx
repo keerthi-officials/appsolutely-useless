@@ -3,6 +3,7 @@ import { BananaMoodGame } from "@/components/games/banana-mood";
 import { ChickenOrCeoGame } from "@/components/games/chicken-or-ceo";
 import { FortuneCookieGame } from "@/components/games/fortune-cookie";
 import { InvisibleCatGame } from "@/components/games/invisible-cat";
+import { PayRespectsGame } from "@/components/games/pay-respects";
 import { PunchSimulatorGame } from "@/components/games/punch-simulator";
 import { RockNftGame } from "@/components/games/rock-nft";
 import { SoupOrSoapGame } from "@/components/games/soup-or-soap";
@@ -88,6 +89,8 @@ export function GamePageClient({ slug }: GamePageClientProps) {
         return <RockNftGame key={gameKey} />;
       case "invisible-cat":
         return <InvisibleCatGame key={gameKey} />;
+      case "pay-respects":
+        return <PayRespectsGame key={gameKey} />
       default:
         return <div>Game component not found</div>;
     }
