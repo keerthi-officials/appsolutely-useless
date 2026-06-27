@@ -50,7 +50,7 @@ export function TapToScreamGame() {
         setTimeout(() => setIsAnimating(false), 500)
 
         if (soundEnabled) {
-          // play sound
+          playSound("scream")
         }
     }
 

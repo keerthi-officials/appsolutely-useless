@@ -1,4 +1,4 @@
-export const playSound = (type: "click" | "success" | "fail" | "meow" | "punch"): void => {
+export const playSound = (type: "click" | "success" | "fail" | "meow" | "punch" | "scream"): void => {
   if (typeof window === "undefined") return;
 
   try {
@@ -81,13 +81,34 @@ export const playSound = (type: "click" | "success" | "fail" | "meow" | "punch")
         oscillator.stop(audioContext.currentTime + 0.3);
         break;
 
-    case "punch":
+      case "punch":
         oscillator.type = "square";
-        oscillator.frequency.setValueAtTime(100, audioContext.currentTime)
-        gainNode.gain.setValueAtTime(0.5, audioContext.currentTime)
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1)
-        oscillator.start()
-        oscillator.stop(audioContext.currentTime + 0.1)
+        oscillator.frequency.setValueAtTime(100, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(
+          0.01,
+          audioContext.currentTime + 0.1,
+        );
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.1);
+        break;
+
+      case "scream":
+        oscillator.frequency.setValueAtTime(
+          1000 + Math.random() * 500,
+          audioContext.currentTime,
+        );
+        oscillator.frequency.exponentialRampToValueAtTime(
+          2000 + Math.random() * 1000,
+          audioContext.currentTime + 0.2,
+        );
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(
+          0.01,
+          audioContext.currentTime + 0.5,
+        );
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.5);
         break;
 
       default:
@@ -104,3 +125,4 @@ export const playSound = (type: "click" | "success" | "fail" | "meow" | "punch")
     console.warn("Could not play sound", err);
   }
 };
+
