@@ -1,4 +1,14 @@
-export const playSound = (type: "click" | "success" | "fail" | "meow" | "punch" | "scream" | "splat"): void => {
+export const playSound = (
+  type:
+    | "click"
+    | "success"
+    | "fail"
+    | "meow"
+    | "punch"
+    | "scream"
+    | "splat"
+    | "respect",
+): void => {
   if (typeof window === "undefined") return;
 
   try {
@@ -111,14 +121,39 @@ export const playSound = (type: "click" | "success" | "fail" | "meow" | "punch" 
         oscillator.stop(audioContext.currentTime + 0.5);
         break;
 
-    case "splat":
-        oscillator.type = "square"
-        oscillator.frequency.setValueAtTime(150, audioContext.currentTime)
-        oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.2)
-        gainNode.gain.setValueAtTime(0.4, audioContext.currentTime)
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2)
-        oscillator.start()
-        oscillator.stop(audioContext.currentTime + 0.2)
+      case "splat":
+        oscillator.type = "square";
+        oscillator.frequency.setValueAtTime(150, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(
+          50,
+          audioContext.currentTime + 0.2,
+        );
+        gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(
+          0.01,
+          audioContext.currentTime + 0.2,
+        );
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.2);
+        break;
+
+      case "respect":
+        oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(
+          196,
+          audioContext.currentTime + 0.3,
+        );
+        oscillator.frequency.setValueAtTime(
+          175,
+          audioContext.currentTime + 0.6,
+        );
+        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(
+          0.01,
+          audioContext.currentTime + 1,
+        );
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 1);
         break;
 
       default:
@@ -135,4 +170,3 @@ export const playSound = (type: "click" | "success" | "fail" | "meow" | "punch" 
     console.warn("Could not play sound", err);
   }
 };
-

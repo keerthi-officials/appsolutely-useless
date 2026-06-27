@@ -4,6 +4,7 @@ import { incrementTaps } from "@/lib/storage";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useEffect, useState } from "react";
+import { playSound } from "@/lib/sounds";
 
 const RESPECT_STORAGE_KEY = "global-respect-count";
 
@@ -43,6 +44,8 @@ export function PayRespectsGame() {
       setIsAnimating(false);
       setShowRipple(false);
     }, 600);
+
+    playSound("respect")
   };
 
   const reset = () => {
