@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { incrementTaps } from "@/lib/storage";
+import { playSound } from "@/lib/sounds";
 
 export function PunchSimulatorGame() {
   const [painLevel, setPainLevel] = useState(0);
@@ -18,6 +19,8 @@ export function PunchSimulatorGame() {
 
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 300);
+
+    playSound("punch")
   };
 
   const getPainEmoji = () => {
