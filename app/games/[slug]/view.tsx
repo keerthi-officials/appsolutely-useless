@@ -7,6 +7,7 @@ import { MosquitoSlapGame } from "@/components/games/mosquito-slap";
 import { PayRespectsGame } from "@/components/games/pay-respects";
 import { PunchSimulatorGame } from "@/components/games/punch-simulator";
 import { RockNftGame } from "@/components/games/rock-nft";
+import { ShitpostGeneratorGame } from "@/components/games/shitpost-generator";
 import { SoupOrSoapGame } from "@/components/games/soup-or-soap";
 import { TapToScreamGame } from "@/components/games/tap-to-scream";
 import { UselessButtonGame } from "@/components/games/useless-button";
@@ -94,6 +95,8 @@ export function GamePageClient({ slug }: GamePageClientProps) {
         return <PayRespectsGame key={gameKey} />;
       case "mosquito-slap":
         return <MosquitoSlapGame key={gameKey} />;
+      case "shitpost-generator":
+        return <ShitpostGeneratorGame key={gameKey} />;
       default:
         return <div>Game component not found</div>;
     }
