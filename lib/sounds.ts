@@ -1,4 +1,4 @@
-export const playSound = (type: "click" | "success" | "fail"): void => {
+export const playSound = (type: "click" | "success" | "fail" | "meow"): void => {
   if (typeof window === "undefined") return;
 
   try {
@@ -60,6 +60,25 @@ export const playSound = (type: "click" | "success" | "fail"): void => {
         );
         oscillator.start();
         oscillator.stop(audioContext.currentTime + 0.5);
+        break;
+
+      case "meow":
+        oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(
+          800,
+          audioContext.currentTime + 0.1,
+        );
+        oscillator.frequency.exponentialRampToValueAtTime(
+          200,
+          audioContext.currentTime + 0.3,
+        );
+        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(
+          0.01,
+          audioContext.currentTime + 0.3,
+        );
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.3);
         break;
 
       default:

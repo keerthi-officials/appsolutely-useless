@@ -5,6 +5,7 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Progress } from "../ui/progress";
 import { Button } from "../ui/button";
+import { playSound } from "@/lib/sounds";
 
 export function InvisibleCatGame() {
     const [purrMeter, setPurrMeter] = useState(0);
@@ -28,6 +29,8 @@ export function InvisibleCatGame() {
             setShowPetEffect(false)
             setLastPetPosition(null)
         }, 1000)
+
+        playSound("meow")
     }
 
     const getCatMood = () => {
