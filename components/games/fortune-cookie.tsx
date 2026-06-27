@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { incrementTaps } from "@/lib/storage";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { playSound } from "@/lib/sounds";
 
 const brutallyhonestFortunes = [
   "Give up.",
@@ -77,6 +78,7 @@ export function FortuneCookieGame() {
       setFortuneCount((prev) => prev + 1);
       setFortuneHIstory((prev) => [randomFortune, ...prev.slice(0, 4)]);
       setIsOpening(false);
+      playSound("success")
     }, 1500);
   };
 

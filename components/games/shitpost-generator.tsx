@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 import { RefreshCw, Copy, Share } from "lucide-react"
 import { incrementTaps } from "@/lib/storage"
 import {toast} from "sonner"
+import { playSound } from "@/lib/sounds"
 
 const postTemplates = [
   "TIL that {adjective} {noun} {verb} {object} in {location}. Mind = {reaction}.",
@@ -262,6 +263,7 @@ export function ShitpostGeneratorGame() {
     
       setCurrentPost(post)
       setGeneratedCount(prev => prev + 1)
+      playSound("success")
   }
 
   const copyPost = async () => {

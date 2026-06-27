@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Coins, Gem, Star } from "lucide-react";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
+import { playSound } from "@/lib/sounds";
 
 interface Rock {
   id: string;
@@ -174,6 +175,7 @@ export function RockNftGame() {
 
       setSelectedRock(null);
       setIsMinting(false);
+      playSound("success")
     }, 2000);
   };
 

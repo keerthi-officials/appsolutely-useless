@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { incrementTaps } from "@/lib/storage";
+import { playSound } from "@/lib/sounds";
 
 interface Medal {
   name: string;
@@ -130,6 +131,7 @@ export function WaitingGame() {
           setCurrentMedal(availableMedal);
           if (!earnedMedals.includes(availableMedal)) {
             setEarnedMedals((prev) => [...prev, availableMedal]);
+            playSound("success")
           }
         }
 

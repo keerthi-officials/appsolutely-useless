@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { incrementTaps } from "@/lib/storage";
+import { playSound } from "@/lib/sounds";
 
 interface BananaMood {
   emoji: string;
@@ -117,6 +118,9 @@ export function BananaMoodGame() {
 
     if (isCorrect) {
       setScore((prev) => prev + 1);
+      playSound("success")
+    } else {
+      playSound("fail")
     }
   };
 

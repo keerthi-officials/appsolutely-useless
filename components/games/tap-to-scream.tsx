@@ -5,6 +5,7 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Volume2, VolumeX } from "lucide-react";
+import { playSound } from "@/lib/sounds";
 
 const screamTypes = [
   {
@@ -56,6 +57,7 @@ export function TapToScreamGame() {
     const toggleSound = () => {
       incrementTaps()
       setSOundEnabled(!soundEnabled)
+      playSound("click")
     }
 
     const reset = () => {

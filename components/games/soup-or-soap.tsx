@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { incrementTaps } from "@/lib/storage";
+import { playSound } from "@/lib/sounds";
 
 interface Question {
   imageUrl: string;
@@ -60,7 +61,9 @@ export function SoupOrSoapGame() {
     setShowAnswer(true);
     if (answer === question.answer) {
       setScore(score + 1);
+      playSound("success");
     } else {
+      playSound("fail");
     }
   };
 

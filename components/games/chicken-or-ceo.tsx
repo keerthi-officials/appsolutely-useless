@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { incrementTaps } from "@/lib/storage";
 import { Badge } from "../ui/badge";
+import { playSound } from "@/lib/sounds";
 
 interface Quote {
     text: string;
@@ -83,8 +84,10 @@ export function ChickenOrCeoGame() {
     if (answer === quote.source) {
       setScore(score + 1);
       setStreak(streak + 1);
+      playSound("success")
     } else {
       setStreak(0);
+      playSound("fail")
     }
   };
 
