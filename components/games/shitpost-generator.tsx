@@ -274,6 +274,7 @@ export function ShitpostGeneratorGame() {
     try {
       await navigator.clipboard.writeText(currentPost)
       toast.success("Shitpost copied to clipboard!")
+      playSound("click")
     } catch (err) {
       toast.error("Failed to copy. Your shitpost is too powerful!")
     }

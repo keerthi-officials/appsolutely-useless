@@ -131,7 +131,7 @@ export function WaitingGame() {
           setCurrentMedal(availableMedal);
           if (!earnedMedals.includes(availableMedal)) {
             setEarnedMedals((prev) => [...prev, availableMedal]);
-            playSound("success")
+            playSound("success");
           }
         }
 
@@ -156,6 +156,7 @@ export function WaitingGame() {
     setTimeWaited(0);
     startTimeRef.current = Date.now();
     setMotivationalMessage("The waiting begins... How long can you last?");
+    playSound("click");
   };
 
   const stopWaiting = () => {
@@ -165,6 +166,8 @@ export function WaitingGame() {
       setBestTime(timeWaited);
       localStorage.setItem("waiting-game-best", timeWaited.toString());
     }
+
+    playSound("fail");
   };
 
   const reset = () => {

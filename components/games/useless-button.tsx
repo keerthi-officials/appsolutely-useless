@@ -4,6 +4,7 @@ import { incrementTaps } from "@/lib/storage"
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 import { Button } from "../ui/button"
+import { playSound } from "@/lib/sounds"
 
 export function UselessButtonGame() {
     const [count, setCount] = useState(0)
@@ -57,6 +58,7 @@ export function UselessButtonGame() {
     setCount(prev => prev + 1);
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 200);
+    playSound("click")
   }
   
   const reset = () => {

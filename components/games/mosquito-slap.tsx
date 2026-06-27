@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { incrementTaps } from "@/lib/storage";
+import { playSound } from "@/lib/sounds";
 
 interface MosquitoPosition {
   x: number;
@@ -94,6 +95,7 @@ export function MosquitoSlapGame() {
       }, 500);
     } else {
       setMisses((prev) => prev + 1);
+      playSound("fail")
     }
     setMosquito(null);
   };
