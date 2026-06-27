@@ -87,6 +87,7 @@ export function MosquitoSlapGame() {
     if (caught && mosquito) {
       setScore((prev) => prev + 1);
       setShowSplat({ x, y });
+      playSound("splat")
 
       setTimeout(() => setShowSplat(null), 1000);
 
