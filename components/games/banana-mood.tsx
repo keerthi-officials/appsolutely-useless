@@ -118,9 +118,9 @@ export function BananaMoodGame() {
 
     if (isCorrect) {
       setScore((prev) => prev + 1);
-      playSound("success")
+      playSound("success");
     } else {
-      playSound("fail")
+      playSound("fail");
     }
   };
 

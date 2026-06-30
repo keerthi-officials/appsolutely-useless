@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { Button } from "../ui/button";
@@ -8,9 +8,9 @@ import { Badge } from "../ui/badge";
 import { playSound } from "@/lib/sounds";
 
 interface Quote {
-    text: string;
-    source: "chicken" | "ceo";
-    attribution: string;
+  text: string;
+  source: "chicken" | "ceo";
+  attribution: string;
 }
 
 const quotes: Quote[] = [
@@ -67,33 +67,33 @@ const quotes: Quote[] = [
 ];
 
 export function ChickenOrCeoGame() {
-     const [currentQuote, setCurrentQuote] = useState(0);
+  const [currentQuote, setCurrentQuote] = useState(0);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-  const [userAnswer, setUserAnswer] = useState<'chicken' | 'ceo' | null>(null);
+  const [userAnswer, setUserAnswer] = useState<"chicken" | "ceo" | null>(null);
 
   const quote = quotes[currentQuote];
 
-  const handleAnswer = (answer: 'chicken' | 'ceo') => {
+  const handleAnswer = (answer: "chicken" | "ceo") => {
     incrementTaps();
     setUserAnswer(answer);
     setShowAnswer(true);
-    
+
     if (answer === quote.source) {
       setScore(score + 1);
       setStreak(streak + 1);
-      playSound("success")
+      playSound("success");
     } else {
       setStreak(0);
-      playSound("fail")
+      playSound("fail");
     }
   };
 
   const nextQuestion = () => {
     incrementTaps();
-    
+
     if (currentQuote + 1 >= quotes.length) {
       setGameOver(true);
     } else {
@@ -124,98 +124,96 @@ export function ChickenOrCeoGame() {
             <div className="text-4xl font-bold">
               {score}/{quotes.length}
             </div>
-            <div className="text-sm text-muted-foreground">
-              Final Score
-            </div>
+            <div className="text-sm text-muted-foreground">Final Score</div>
           </div>
-          <p className="text-muted-foreground">
-
-          </p>
+          <p className="text-muted-foreground"></p>
           <Button onClick={resetGame} className="w-full">
             Play Again
           </Button>
-          </CardContent>
-          </Card>
-    )
-}
+        </CardContent>
+      </Card>
+    );
+  }
 
-return (
-  <Card className="max-w-md mx-auto">
-    <CardHeader>
-      <div className="items-center justify-between flex">
-        <CardTitle>🐔 Chicken or CEO?</CardTitle>
-        <Badge>
-          {currentQuote + 1}/{quotes.length}
-        </Badge>
-      </div>
-      <div className="flex items-center justify-between text-sm">
-        <div>
-          Score: <span className="font-bold">{score}</span>
+  return (
+    <Card className="max-w-md mx-auto">
+      <CardHeader>
+        <div className="items-center justify-between flex">
+          <CardTitle>🐔 Chicken or CEO?</CardTitle>
+          <Badge>
+            {currentQuote + 1}/{quotes.length}
+          </Badge>
         </div>
-        <div>
-          Streak: <span className="font-bold text-orange-600">{streak}</span>
+        <div className="flex items-center justify-between text-sm">
+          <div>
+            Score: <span className="font-bold">{score}</span>
+          </div>
+          <div>
+            Streak: <span className="font-bold text-orange-600">{streak}</span>
+          </div>
         </div>
-      </div>
-    </CardHeader>
-    <CardContent className="space-y-4">
-      <div className="p-6 bg-linear-to-br from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg">
-        <div className="text-lg font-medium leading-relaxed text-center">
-          &quot;{quote.text}&quot;
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="p-6 bg-linear-to-br from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg">
+          <div className="text-lg font-medium leading-relaxed text-center">
+            &quot;{quote.text}&quot;
+          </div>
         </div>
-      </div>
 
-      <div className="text-center text-sm text-muted-foreground">
-        Who said this profound statement?
-      </div>
-
-      {!showAnswer ? (
-        <div className="grid grid-cols-2 gap-4">
-          <Button
-            onClick={() => handleAnswer("chicken")}
-            className="h-20 flex flex-col items-center justify-center space-y-2"
-            variant="outline"
-          >
-            <span className="text-2xl">🐔</span>
-            <span>Chicken</span>
-          </Button>
-          <Button
-            onClick={() => handleAnswer("ceo")}
-            className="h-20 flex flex-col items-center justify-center space-y-2"
-            variant="outline"
-          >
-            <span className="text-2xl">💼</span>
-            <span>CEO</span>
-          </Button>
+        <div className="text-center text-sm text-muted-foreground">
+          Who said this profound statement?
         </div>
-      ) : (
-        <div className="space-y-4">
-          <div
-            className={`text-center p-4 rounded-lg ${
-              userAnswer === quote.source
-                ? "bg-green-100 border border-green-300"
-                : "bg-red-100 border border-red-300"
-            }`}
-          >
-            <div className="text-2xl mb-2">
-              {userAnswer === quote.source ? "✅ Correct!" : "❌ Wrong!"}
+
+        {!showAnswer ? (
+          <div className="grid grid-cols-2 gap-4">
+            <Button
+              onClick={() => handleAnswer("chicken")}
+              className="h-20 flex flex-col items-center justify-center space-y-2"
+              variant="outline"
+            >
+              <span className="text-2xl">🐔</span>
+              <span>Chicken</span>
+            </Button>
+            <Button
+              onClick={() => handleAnswer("ceo")}
+              className="h-20 flex flex-col items-center justify-center space-y-2"
+              variant="outline"
+            >
+              <span className="text-2xl">💼</span>
+              <span>CEO</span>
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div
+              className={`text-center p-4 rounded-lg ${
+                userAnswer === quote.source
+                  ? "bg-green-100 border border-green-300"
+                  : "bg-red-100 border border-red-300"
+              }`}
+            >
+              <div className="text-2xl mb-2">
+                {userAnswer === quote.source ? "✅ Correct!" : "❌ Wrong!"}
+              </div>
+              <div className="font-semibold">It was a {quote.source}!</div>
+              <div className="text-sm text-muted-foreground mt-1">
+                {quote.attribution}
+              </div>
             </div>
-            <div className="font-semibold">It was a {quote.source}!</div>
-            <div className="text-sm text-muted-foreground mt-1">
-              {quote.attribution}
+            <Button onClick={nextQuestion} className="w-full">
+              {currentQuote + 1 >= quotes.length ? "Finish Game" : "Next Quote"}
+            </Button>
+          </div>
+        )}
+
+        {streak > 2 && (
+          <div className="text-center p-2 bg-orange-100 border border-orange-200 rounded-lg">
+            <div className="text-sm">
+              🔥 {streak} in a row! You&apos;re on fire!
             </div>
           </div>
-          <Button onClick={nextQuestion} className="w-full">
-            {currentQuote + 1 >= quotes.length ? "Finish Game" : "Next Quote"}
-          </Button>
-        </div>
-      )}
-
-      {streak > 2 && (
-        <div className="text-center p-2 bg-orange-100 border border-orange-200 rounded-lg">
-          <div className="text-sm">🔥 {streak} in a row! You&apos;re on fire!</div>
-        </div>
-      )}
-    </CardContent>
-  </Card>
-);
+        )}
+      </CardContent>
+    </Card>
+  );
 }

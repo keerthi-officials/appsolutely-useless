@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
 import { incrementTaps } from "@/lib/storage";
-import { useState } from "react"
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Volume2, VolumeX } from "lucide-react";
@@ -30,42 +30,44 @@ const screamTypes = [
   { emoji: "🦖", name: "Dinosaur Scream", description: "ROAAAAAR!" },
 ];
 
-
 export function TapToScreamGame() {
-    const [screamCount, setScreamCount] = useState(0)
-    const [currentScream, setCurrentScream] = useState < typeof screamTypes[0] | null>(null);
-    const [isAnimating, setIsAnimating] = useState(false)
-    const [soundEnabled, setSOundEnabled] = useState(true)
-    const [screamHistory, setScreamHistory] = useState<string[]>([])
+  const [screamCount, setScreamCount] = useState(0);
+  const [currentScream, setCurrentScream] = useState<
+    (typeof screamTypes)[0] | null
+  >(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [soundEnabled, setSOundEnabled] = useState(true);
+  const [screamHistory, setScreamHistory] = useState<string[]>([]);
 
-    const scream = () => {
-        incrementTaps()
+  const scream = () => {
+    incrementTaps();
 
-        const randomScream = screamTypes[Math.floor(Math.random() * screamTypes.length)]
-        setCurrentScream(randomScream)
-        setScreamCount(prev => prev + 1)
-        setScreamHistory(prev => [randomScream.name, ...prev.slice(0,4)])
+    const randomScream =
+      screamTypes[Math.floor(Math.random() * screamTypes.length)];
+    setCurrentScream(randomScream);
+    setScreamCount((prev) => prev + 1);
+    setScreamHistory((prev) => [randomScream.name, ...prev.slice(0, 4)]);
 
-        setIsAnimating(true)
-        setTimeout(() => setIsAnimating(false), 500)
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 500);
 
-        if (soundEnabled) {
-          playSound("scream")
-        }
+    if (soundEnabled) {
+      playSound("scream");
     }
+  };
 
-    const toggleSound = () => {
-      incrementTaps()
-      setSOundEnabled(!soundEnabled)
-      playSound("click")
-    }
+  const toggleSound = () => {
+    incrementTaps();
+    setSOundEnabled(!soundEnabled);
+    playSound("click");
+  };
 
-    const reset = () => {
-      incrementTaps();
-      setScreamCount(0)
-      setCurrentScream(null)
-      setScreamHistory([])
-    }
+  const reset = () => {
+    incrementTaps();
+    setScreamCount(0);
+    setCurrentScream(null);
+    setScreamHistory([]);
+  };
 
   const getScreamLevel = () => {
     if (screamCount === 0)

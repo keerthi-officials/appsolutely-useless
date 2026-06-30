@@ -23,30 +23,30 @@ export function MosquitoSlapGame() {
   const gameAreaRef = useRef<HTMLDivElement>(null);
   const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-const startGame = () => {
-  incrementTaps();
+  const startGame = () => {
+    incrementTaps();
 
-  setScore(0);
-  setMisses(0);
-  setTimeLeft(30);
+    setScore(0);
+    setMisses(0);
+    setTimeLeft(30);
 
-  setMosquito({
-    x: Math.random() * 80 + 10,
-    y: Math.random() * 80 + 10,
-  });
-
-  setGameActive(true);
-
-  gameTimerRef.current = setInterval(() => {
-    setTimeLeft((prev) => {
-      if (prev <= 1) {
-        endGame();
-        return 0;
-      }
-      return prev - 1;
+    setMosquito({
+      x: Math.random() * 80 + 10,
+      y: Math.random() * 80 + 10,
     });
-  }, 1000);
-};
+
+    setGameActive(true);
+
+    gameTimerRef.current = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          endGame();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
 
   const endGame = () => {
     setGameActive(false);
@@ -56,12 +56,12 @@ const startGame = () => {
     }
   };
 
-const spawnMosquito = () => {
-  setMosquito({
-    x: Math.random() * 80 + 10,
-    y: Math.random() * 80 + 10,
-  });
-};
+  const spawnMosquito = () => {
+    setMosquito({
+      x: Math.random() * 80 + 10,
+      y: Math.random() * 80 + 10,
+    });
+  };
 
   const slapMosquito = (event: React.MouseEvent, caught: boolean = false) => {
     incrementTaps();

@@ -78,7 +78,7 @@ export function FortuneCookieGame() {
       setFortuneCount((prev) => prev + 1);
       setFortuneHIstory((prev) => [randomFortune, ...prev.slice(0, 4)]);
       setIsOpening(false);
-      playSound("success")
+      playSound("success");
     }, 1500);
   };
 

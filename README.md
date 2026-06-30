@@ -1,29 +1,29 @@
 # 🥔 Appsolutely Useless
 
 A website where you can play 14 very pointless games. This app exists purely for chaos and fun. Nothing else.
- 
+
 Built with Next.js. Includes an AI-powered "Uselessness Predictor" that uses real AI to scientifically* rate how useless anything is.
- 
+
 \* not really scientific.
 
 ## Games
 
-| Game | What it does |
-|------|--------------|
-| 🤖 AI Predicts Uselessness | AI rates how useless anything is, 0-100 |
-| 🍲 Is it Soup or Soap? | Tell soup from soap in blurry images |
-| 👊 Punch Yourself Simulator | Virtually punch yourself, dramatically |
-| 🐔 Chicken or CEO? | Guess if a quote came from a chicken or a CEO |
-| 🔘 The Button That Does Nothing | A button. It counts. That's it. |
-| 😸 Pet the Invisible Cat | Pet nothing, watch the purr meter rise |
-| 🍌 Guess the Banana's Mood | This banana has feelings |
-| 🪦 F to Pay Respects | Press F for the global respect counter |
-| 🦟 Virtual Mosquito Slap | Hunt the mosquito before it ecapes |
-| 💩 Daily Shitpost Generator | Generate maximally random posts |
-| 😱 Tap to Scream | Increaingly absurd screaming |
-| ⌛ How Long Can You Wait? | Do nothing. See how long you last. |
-| 🥠 Fortune Cookie That Tells You to Quit | Brutally honest life advice |
-| 🪨 Buy a Rock NFT (Fake) | Mint worthless digital rocks |
+| Game                                     | What it does                                  |
+| ---------------------------------------- | --------------------------------------------- |
+| 🤖 AI Predicts Uselessness               | AI rates how useless anything is, 0-100       |
+| 🍲 Is it Soup or Soap?                   | Tell soup from soap in blurry images          |
+| 👊 Punch Yourself Simulator              | Virtually punch yourself, dramatically        |
+| 🐔 Chicken or CEO?                       | Guess if a quote came from a chicken or a CEO |
+| 🔘 The Button That Does Nothing          | A button. It counts. That's it.               |
+| 😸 Pet the Invisible Cat                 | Pet nothing, watch the purr meter rise        |
+| 🍌 Guess the Banana's Mood               | This banana has feelings                      |
+| 🪦 F to Pay Respects                     | Press F for the global respect counter        |
+| 🦟 Virtual Mosquito Slap                 | Hunt the mosquito before it ecapes            |
+| 💩 Daily Shitpost Generator              | Generate maximally random posts               |
+| 😱 Tap to Scream                         | Increaingly absurd screaming                  |
+| ⌛ How Long Can You Wait?                | Do nothing. See how long you last.            |
+| 🥠 Fortune Cookie That Tells You to Quit | Brutally honest life advice                   |
+| 🪨 Buy a Rock NFT (Fake)                 | Mint worthless digital rocks                  |
 
 ## Tech Stack
 
@@ -34,9 +34,11 @@ Built with Next.js. Includes an AI-powered "Uselessness Predictor" that uses rea
 - Hack Club AI for the Uselessness Predictor
 
 ## Getting started
+
 To run the site in local, follow these steps
 
 ### 1. Install
+
 ```bash
 npm install
 ```

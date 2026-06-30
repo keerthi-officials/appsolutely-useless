@@ -318,7 +318,9 @@ export function WaitingGame() {
                 );
               } else {
                 return (
-                  <div className="text-sm">You&apos;ve earned all medals! 🎉</div>
+                  <div className="text-sm">
+                    You&apos;ve earned all medals! 🎉
+                  </div>
                 );
               }
             })()}

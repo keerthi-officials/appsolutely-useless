@@ -20,7 +20,7 @@ export function PunchSimulatorGame() {
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 300);
 
-    playSound("punch")
+    playSound("punch");
   };
 
   const getPainEmoji = () => {
