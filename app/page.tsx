@@ -16,7 +16,7 @@ export default function Home() {
 
       <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto text-center">
         Welcome to the world&apos;s most comprehensive collection of pointless
-        mini-games. This app eists purely for chaos and fun. Nothing Else.
+        mini-games. This app exists purely for chaos and fun. Nothing Else.
       </p>
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

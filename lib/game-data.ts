@@ -60,7 +60,7 @@ export const games: Game[] = [
   },
   {
     id: "pay-respects",
-    title: "F to Pay Respets",
+    title: "F to Pay Respects",
     description: "Press F to contribute to the global respect counter.",
     emoji: "🪦",
     category: "pointless",
@@ -85,7 +85,7 @@ export const games: Game[] = [
   {
     id: "tap-to-scream",
     title: "Tap to Scream",
-    description: "Tap to hear increasingly absured screaming sounds.",
+    description: "Tap to hear increasingly absurd screaming sounds.",
     emoji: "😱",
     category: "annoying",
     estimatedTime: "2 min",
@@ -117,7 +117,7 @@ export const games: Game[] = [
     estimatedTime: "1 min",
   },
   {
-    id: "roft-nft",
+    id: "rock-nft",
     title: "Buy a Rock NFT (Fake)",
     description: "Mint and collect completely worthless digital rocks!",
     emoji: "🪨",

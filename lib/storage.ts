@@ -14,6 +14,16 @@ export interface UserStats {
   favorites: string[];
 }
 
+export const DEFAULT_STATS: UserStats = {
+  totalGamesPlayed: 0,
+  totalTimeWasted: 0,
+  totalTaps: 0,
+  regretLevel: 0,
+  achievements: [],
+  favorites: [],
+  gameStats: {},
+};
+
 const STORAGE_KEY = "appsolutely-useless-stats";
 
 export const getStats = (): UserStats => {

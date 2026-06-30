@@ -25,6 +25,20 @@ Built with Next.js. Includes an AI-powered "Uselessness Predictor" that uses rea
 | 🥠 Fortune Cookie That Tells You to Quit | Brutally honest life advice                   |
 | 🪨 Buy a Rock NFT (Fake)                 | Mint worthless digital rocks                  |
 
+## Pages
+
+- **Home** (`/`) — landing page.
+- **Games** (`/games`) — browse the full collection by category.
+- **Random** (`/random`) — drops you into a random game. For when choosing is too much effort.
+- **Favorites** (`/favorites`) — games you marked as favorites (the ones you actually enjoyed).
+- **Profile** (`/profile`) — your useless stats, tracked automatically:
+  - 🎮 **Total Games Played** — games you've opened
+  - ⏰ **Total Time Wasted** — time you'll never get back
+  - 👆 **Total Taps** — finger exercises completed
+  - 😔 **Regret Level** — how much you regret it, as a percentage
+  - ❤️ **Favorite Games** — how many you've favorited
+  - 🤷 **Most Played Game** — your most-opened game and how many times
+
 ## Tech Stack
 
 - Next.js (App Router)
@@ -74,13 +88,15 @@ app/
   page.tsx                  # Home page
   games/                    # Games list + individual games
   random/                   # Sends you to a random game
+  favorites/                # Games you've favorited
+  profile/                  # Your useless stats
   api/
-    uselessness/route.ts    # Server route — holds the AI key, returns a 0–100 score
+    uselessness/route.ts    # Server route - holds the AI key, returns a 0–100 score
 components/
   games/                    # has the game components
   ui/                       # shadcn/ui components
 lib/
   game-data.ts                  # Game registry (id, title, category, etc.)
   sounds.ts                 # Sound effects
-  storage.ts                # Tap counting / local state
+  storage.ts                # Stats, taps, time wasted, favorites - all local
 ```
