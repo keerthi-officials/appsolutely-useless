@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { incrementTaps } from "@/lib/storage";
 import { playSound } from "@/lib/sounds";
+import Image from "next/image";
 
 interface Question {
   imageUrl: string;
@@ -127,12 +128,17 @@ export function SoupOrSoapGame() {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="relative">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={question.imageUrl}
-            alt="Mysterious substance"
-            className="w-full h-64 object-cover rounded-lg filter blur-sm hover:blur-none transition-all duration-300"
-          />
+          <div className="relative w-full h-64">
+            <Image
+              src={question.imageUrl}
+              alt="Mysterious substance"
+              fill
+              loading="eager"
+              sizes="(max-width: 768px) 100vw, 400px"
+              className="object-cover rounded-lg filter blur-sm hover:blur-none transition-all duration-300"
+              unoptimized
+            />
+          </div>
           <div className="absolute inset-0 bg-black/20 rounded-lg flex items-center justify-center">
             <div className="text-white text-lg font-bold bg-black/50 px-3 py-1 rounded">
               🤔 What is this?
