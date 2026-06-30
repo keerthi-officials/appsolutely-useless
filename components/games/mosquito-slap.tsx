@@ -9,7 +9,6 @@ import { playSound } from "@/lib/sounds";
 interface MosquitoPosition {
   x: number;
   y: number;
-  id: number;
 }
 
 export function MosquitoSlapGame() {
@@ -22,72 +21,57 @@ export function MosquitoSlapGame() {
     null,
   );
   const gameAreaRef = useRef<HTMLDivElement>(null);
-  const mosquitoTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const startGame = () => {
-    incrementTaps();
-    setGameActive(true);
-    setScore(0);
-    setMisses(0);
-    setTimeLeft(30);
-    spawnMosquito();
+const startGame = () => {
+  incrementTaps();
 
-    gameTimerRef.current = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          endGame();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  };
+  setScore(0);
+  setMisses(0);
+  setTimeLeft(30);
+
+  setMosquito({
+    x: Math.random() * 80 + 10,
+    y: Math.random() * 80 + 10,
+  });
+
+  setGameActive(true);
+
+  gameTimerRef.current = setInterval(() => {
+    setTimeLeft((prev) => {
+      if (prev <= 1) {
+        endGame();
+        return 0;
+      }
+      return prev - 1;
+    });
+  }, 1000);
+};
 
   const endGame = () => {
     setGameActive(false);
     setMosquito(null);
-    if (mosquitoTimeoutRef.current) {
-      clearTimeout(mosquitoTimeoutRef.current);
-    }
     if (gameTimerRef.current) {
       clearInterval(gameTimerRef.current);
     }
   };
 
-  const spawnMosquito = () => {
-    if (!gameActive) return;
-
-    const x = Math.random() * 80 + 10;
-    const y = Math.random() * 80 + 10;
-
-    setMosquito({
-      x,
-      y,
-      id: Date.now(),
-    });
-
-    mosquitoTimeoutRef.current = setTimeout(
-      () => {
-        if (gameActive) {
-          spawnMosquito();
-        }
-      },
-      Math.random() * 2000 + 1000,
-    );
-  };
+const spawnMosquito = () => {
+  setMosquito({
+    x: Math.random() * 80 + 10,
+    y: Math.random() * 80 + 10,
+  });
+};
 
   const slapMosquito = (event: React.MouseEvent, caught: boolean = false) => {
     incrementTaps();
-
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
-
     if (caught && mosquito) {
       setScore((prev) => prev + 1);
-      setShowSplat({ x, y });
-      playSound("splat")
+      setShowSplat({
+        x: mosquito.x,
+        y: mosquito.y,
+      });
+      playSound("splat");
 
       setTimeout(() => setShowSplat(null), 1000);
 
@@ -96,8 +80,15 @@ export function MosquitoSlapGame() {
       }, 500);
     } else {
       setMisses((prev) => prev + 1);
-      playSound("fail")
+      playSound("fail");
+
+      setTimeout(() => {
+        if (gameActive) {
+          spawnMosquito();
+        }
+      }, 500);
     }
+
     setMosquito(null);
   };
 
@@ -119,9 +110,6 @@ export function MosquitoSlapGame() {
 
   useEffect(() => {
     return () => {
-      if (mosquitoTimeoutRef.current) {
-        clearTimeout(mosquitoTimeoutRef.current);
-      }
       if (gameTimerRef.current) {
         clearInterval(gameTimerRef.current);
       }
@@ -202,7 +190,7 @@ export function MosquitoSlapGame() {
                     className="absolute text-3xl transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
                     style={{
                       left: `${showSplat.x}%`,
-                      right: `${showSplat.y}%`,
+                      top: `${showSplat.y}%`,
                     }}
                   >
                     💥
@@ -213,7 +201,7 @@ export function MosquitoSlapGame() {
                   <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
                     <div className="text-center text-white">
                       <div className="text-4xl mb-2">⏰</div>
-                      <div className="text-lg font-bold">Time's Up!</div>
+                      <div className="text-lg font-bold">Time&apos;s Up!</div>
                     </div>
                   </div>
                 )}

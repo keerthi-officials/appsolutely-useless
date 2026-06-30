@@ -12,9 +12,15 @@ export const playSound = (
   if (typeof window === "undefined") return;
 
   try {
-    const audioContext = new (
-      window.AudioContext || (window as any).webkitAudioContext
-    )();
+    const AudioContextClass =
+      window.AudioContext ||
+      (
+        window as Window & {
+          webkitAudioContext?: typeof AudioContext;
+        }
+      ).webkitAudioContext;
+
+    const audioContext = new AudioContextClass();
 
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();

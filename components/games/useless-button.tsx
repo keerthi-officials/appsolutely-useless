@@ -1,15 +1,14 @@
-"use client"
+"use client";
 
-import { incrementTaps } from "@/lib/storage"
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
-import { Button } from "../ui/button"
-import { playSound } from "@/lib/sounds"
+import { incrementTaps } from "@/lib/storage";
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { playSound } from "@/lib/sounds";
 
 export function UselessButtonGame() {
-    const [count, setCount] = useState(0)
-    const [isAnimating, setIsAnimating] = useState(false)
-    const [motivation, setMotivation] = useState('')
+  const [count, setCount] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const getMotivationalMessage = (count: number) => {
     if (count === 0) return "Go ahead, click it. You know you want to.";
@@ -33,38 +32,38 @@ export function UselessButtonGame() {
     if (count < 50) return "w-36 h-36";
     if (count < 100) return "w-40 h-40";
     if (count < 500) return "w-44 h-44";
-    return "w-48 h-48"
-  }
+    return "w-48 h-48";
+  };
 
   const getButtonColor = () => {
-     const colors = [
-       "from-blue-400 to-blue-600",
-       "from-purple-400 to-purple-600",
-       "from-teal-400 to-teal-600",
-       "from-orange-400 to-orange-600",
-       "from-pink-400 to-pink-600",
-       "from-green-400 to-green-600",
-       "from-red-400 to-red-600",
-     ];
-     return colors[count % colors.length]
-  }
+    const colors = [
+      "from-blue-400 to-blue-600",
+      "from-purple-400 to-purple-600",
+      "from-teal-400 to-teal-600",
+      "from-orange-400 to-orange-600",
+      "from-pink-400 to-pink-600",
+      "from-green-400 to-green-600",
+      "from-red-400 to-red-600",
+    ];
+    return colors[count % colors.length];
+  };
 
-  useEffect(() => {
-    setMotivation(getMotivationalMessage(count))
-  }, [count])
+  const motivation = getMotivationalMessage(count);
+  const buttonSize = getButtonSize();
+  const buttonColor = getButtonColor();
 
   const handleClick = () => {
     incrementTaps();
-    setCount(prev => prev + 1);
+    setCount((prev) => prev + 1);
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 200);
-    playSound("click")
-  }
-  
+    playSound("click");
+  };
+
   const reset = () => {
     incrementTaps();
-    setCount(0)
-  }
+    setCount(0);
+  };
 
   return (
     <Card className="max-w-md mx-auto">
@@ -78,9 +77,9 @@ export function UselessButtonGame() {
         <div className="flex flex-col items-center space-y-4">
           <Button
             onClick={handleClick}
-            className={`${getButtonSize()} rounded-full font-bold text-2xl transition-all duration-200 ${
+            className={`${buttonSize} rounded-full font-bold text-2xl transition-all duration-200 ${
               isAnimating ? "scale-110" : "scale-100"
-            } bg-linear-to-r ${getButtonColor()} hover:scale-150 shadow-lg`}
+            } bg-linear-to-r ${buttonColor} hover:scale-150 shadow-lg`}
           >
             CLICK
           </Button>
@@ -154,6 +153,4 @@ export function UselessButtonGame() {
       </CardContent>
     </Card>
   );
-
-
 }

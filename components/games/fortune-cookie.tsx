@@ -185,7 +185,7 @@ export function FortuneCookieGame() {
               <div className="text-6xl">📜</div>
               <div className="p-4 bg-linear-to-r from-orange-50 to-red-50 border-2 border-orange-200 rounded-lg">
                 <div className="text-lg font-medium italic text-center">
-                  "{currentFortune}"
+                  &quot;{currentFortune}&quot;
                 </div>
               </div>
               <div className="text-sm text-muted-foreground">
@@ -244,7 +244,7 @@ export function FortuneCookieGame() {
                       : "bg-gray-100"
                   }`}
                 >
-                  "{fortune}"
+                  &quot;{fortune}&quot;
                 </div>
               ))}
             </div>

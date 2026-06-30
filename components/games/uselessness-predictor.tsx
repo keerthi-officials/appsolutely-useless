@@ -247,7 +247,9 @@ export function UselessnessPredictorGame() {
             <div className="text-6xl">🤖</div>
             <div className="space-y-2">
               <div className="text-lg font-semibold">Analyzing...</div>
-              <div className="text-sm text-muted-foreground">"{input}"</div>
+              <div className="text-sm text-muted-foreground">
+                &quot;{input}&quot;
+              </div>
               <Progress value={66} className="w-full" />
               <div className="text-xs text-muted-foreground">
                 Running advanced uselessness algorithms...
@@ -259,7 +261,9 @@ export function UselessnessPredictorGame() {
             <div className="text-center space-y-3">
               <div className="text-6xl">{result!.emoji}</div>
               <div className="text-lg font-semibold">Analysis Complete!</div>
-              <div className="text-sm text-muted-foreground">"{input}"</div>
+              <div className="text-sm text-muted-foreground">
+                &quot;{input}&quot;
+              </div>
             </div>
             <div className="space-y-3">
               <div className="text-center">

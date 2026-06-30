@@ -88,8 +88,8 @@ return "MEGA PURR!"
         <CardHeader className="text-center">
           <CardTitle>😸 Pet the Invisible Cat</CardTitle>
           <p className="text-sm text-muted-foreground">
-            There's definitely a cat here. Trust us. Just click anywhere to pet
-            it!
+            There&apos;s definitely a cat here. Trust us. Just click anywhere to
+            pet it!
           </p>
         </CardHeader>
         <CardContent className="space-y-6">

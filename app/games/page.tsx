@@ -2,27 +2,23 @@
 
 import { GameCard } from "@/components/game-card";
 import { Input } from "@/components/ui/input";
-import { Game, games } from "@/lib/game-data";
+import { games } from "@/lib/game-data";
 import { Search } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function GamePage() {
-  const [filteredGames, setFilteredGames] = useState<Game[]>(games);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    let filtered = games;
+  const filteredGames = games.filter((game) => {
+    if (!searchTerm) return true;
 
-    if (searchTerm) {
-      filtered = filtered.filter(
-        (game) =>
-          game.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          game.description.toLowerCase().includes(searchTerm.toLowerCase()),
-      );
-    }
+    const search = searchTerm.toLowerCase();
 
-    setFilteredGames(filtered);
-  }, [searchTerm]);
+    return (
+      game.title.toLowerCase().includes(search) ||
+      game.description.toLowerCase().includes(search)
+    );
+  });
 
   return (
     <div className="max-w-7xl sm:px-6 lg:px-8 mx-auto px-4 py-8">

@@ -90,40 +90,68 @@ const rockTypes: Omit<Rock, "id">[] = [
 const STORAGE_KEY = "rock-nft-collection";
 
 export function RockNftGame() {
-  const [balance, setBalance] = useState(10);
-  const [collection, setCollection] = useState<Rock[]>([]);
   const [selectedRock, setSelectedRock] = useState<Omit<Rock, `id`> | null>(
     null,
   );
   const [isMinting, setIsMinting] = useState(false);
-  const [totalSpent, setTotalSpent] = useState(0);
+  const initialData: {
+    collection: Rock[];
+    balance: number;
+    totalSpent: number;
+  } = (() => {
+    if (typeof window === "undefined") {
+      return {
+        collection: [] as Rock[],
+        balance: 10,
+        totalSpent: 0,
+      };
+    }
+
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+
+      if (!saved) {
+        return {
+          collection: [] as Rock[],
+          balance: 10,
+          totalSpent: 0,
+        };
+      }
+
+      const data = JSON.parse(saved) as {
+        collection?: Rock[];
+        balance?: number;
+        totalSpent?: number;
+      };
+      return {
+        collection: data.collection ?? [],
+        balance: data.balance ?? 10,
+        totalSpent: data.totalSpent ?? 0,
+      };
+    } catch (err) {
+      console.error("Failed to load rock collection:", err);
+
+      return {
+        collection: [] as Rock[],
+        balance: 10,
+        totalSpent: 0,
+      };
+    }
+  })();
+  const [collection, setCollection] = useState(initialData.collection);
+  const [balance, setBalance] = useState(initialData.balance);
+  const [totalSpent, setTotalSpent] = useState(initialData.totalSpent);
 
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        setCollection(data.collection || []);
-        setBalance(data.balance || 10);
-        setTotalSpent(data.totalSpent || 0);
-      } catch (err) {
-        console.error("Failed to load rock collection:", err);
-      }
-    }
-  }, []);
-
-  const saveCollection = (
-    newCollection: Rock[],
-    newBalance: number,
-    newTotalSpent: number,
-  ) => {
-    const data = {
-      collection: newCollection,
-      balance: newBalance,
-      totalSpent: newTotalSpent,
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  };
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        collection,
+        balance,
+        totalSpent,
+      }),
+    );
+  }, [collection, balance, totalSpent]);
 
   const selectRandomRock = () => {
     incrementTaps();
@@ -171,11 +199,10 @@ export function RockNftGame() {
       setCollection(newCollection);
       setBalance(newBalance);
       setTotalSpent(newTotalSpent);
-      saveCollection(newCollection, newBalance, newTotalSpent);
 
       setSelectedRock(null);
       setIsMinting(false);
-      playSound("success")
+      playSound("success");
     }, 2000);
   };
 
@@ -255,7 +282,7 @@ export function RockNftGame() {
               <div className="text-6xl mb-2">{selectedRock.emoji}</div>
               <div className="space-y-2">
                 <div className="flex items-center justify-center space-x-2">
-                  <h3 lang="text-lg font-semibold">{selectedRock.name}</h3>
+                  <h3 className="text-lg font-semibold">{selectedRock.name}</h3>
                   <Badge className={getRarityColor(selectedRock.rarity)}>
                     {selectedRock.rarity}
                   </Badge>
@@ -405,7 +432,7 @@ export function RockNftGame() {
           <p>⚠️ These NFTs have no real value</p>
           <p>💰 No actual cryptocurrency involved</p>
           <p>🪨 Rocks are stored in localStorage, not blockchain</p>
-          <p>📈 Investment advice: Don't.</p>
+          <p>📈 Investment advice: Don&apos;t.</p>
         </div>
       </CardContent>
     </Card>

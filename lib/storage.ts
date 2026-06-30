@@ -2,8 +2,6 @@ export interface GameStats {
   timesPlayed: number;
   timeSpent: number;
   lastPlayed: number;
-  highScore?: number;
-  customStats?: Record<string, any>;
 }
 
 export interface UserStats {
@@ -58,14 +56,23 @@ export const updateGameStats = (
     };
   }
 
+  const current = stats.gameStats[gameId];
+
   stats.gameStats[gameId] = {
-    ...stats.gameStats[gameId],
-    ...updates,
+    ...current,
+    timesPlayed: current.timesPlayed + (updates.timesPlayed ?? 0),
+    timeSpent: current.timeSpent + (updates.timeSpent ?? 0),
     lastPlayed: Date.now(),
   };
 
-  stats.totalGamesPlayed++;
-  stats.totalTimeWasted += updates.timeSpent || 0;
+  if (updates.timesPlayed) {
+    stats.totalGamesPlayed += updates.timesPlayed;
+  }
+
+  if (updates.timeSpent) {
+    stats.totalTimeWasted += updates.timeSpent;
+  }
+
   stats.regretLevel = Math.min(100, stats.regretLevel + 0.1);
 
   saveStats(stats);

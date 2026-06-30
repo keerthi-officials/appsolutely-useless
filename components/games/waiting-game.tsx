@@ -79,20 +79,18 @@ const medals: Medal[] = [
 export function WaitingGame() {
   const [isWaiting, setIsWaiting] = useState(false);
   const [timeWaited, setTimeWaited] = useState(0);
-  const [bestTime, setBestTime] = useState(0);
   const [currentMedal, setCurrentMedal] = useState<Medal | null>(null);
   const [earnedMedals, setEarnedMedals] = useState<Medal[]>([]);
   const [motivationalMessage, setMotivationalMessage] = useState("");
+  const [bestTime, setBestTime] = useState(() => {
+    if (typeof window === "undefined") return 0;
+
+    const saved = localStorage.getItem("waiting-game-best");
+    return saved ? parseInt(saved, 10) : 0;
+  });
 
   const intervalRef = useRef<NodeJS.Timeout>(setInterval(() => {}));
   const startTimeRef = useRef<number>(0);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("waiting-game-best");
-    if (saved) {
-      setBestTime(parseInt(saved, 10));
-    }
-  }, []);
 
   const updateMotivationalMessage = (seconds: number) => {
     const messages = [
@@ -320,7 +318,7 @@ export function WaitingGame() {
                 );
               } else {
                 return (
-                  <div className="text-sm">You've earned all medals! 🎉</div>
+                  <div className="text-sm">You&apos;ve earned all medals! 🎉</div>
                 );
               }
             })()}

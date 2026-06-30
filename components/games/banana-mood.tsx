@@ -136,7 +136,7 @@ export function BananaMoodGame() {
   return (
     <Card className="max-w-md mx-auto">
       <CardHeader className="text-center">
-        <CardTitle>🍌 Guess the Banana's Mood</CardTitle>
+        <CardTitle>🍌 Guess the Banana&apos;s Mood</CardTitle>
         <p className="text-sm text-muted-foreground">
           Every banana has feelings. Can you guess what this one is thinking?
         </p>

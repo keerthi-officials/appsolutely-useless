@@ -3,23 +3,23 @@
 import { incrementTaps } from "@/lib/storage";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { playSound } from "@/lib/sounds";
 
 const RESPECT_STORAGE_KEY = "global-respect-count";
 
 export function PayRespectsGame() {
   const [personalRespects, setPersonalRespects] = useState(0);
-  const [globalRespects, setGlobalRespects] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [showRipple, setShowRipple] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem(RESPECT_STORAGE_KEY);
-      setGlobalRespects(stored ? parseInt(stored, 10) : 0);
+  const [globalRespects, setGlobalRespects] = useState(() => {
+    if (typeof window === "undefined") {
+      return 0;
     }
-  }, []);
+
+    const stored = localStorage.getItem(RESPECT_STORAGE_KEY);
+    return stored ? parseInt(stored, 10) : 0;
+  });
 
   const saveGlobalRespects = (count: number) => {
     if (typeof window !== "undefined") {
@@ -45,7 +45,7 @@ export function PayRespectsGame() {
       setShowRipple(false);
     }, 600);
 
-    playSound("respect")
+    playSound("respect");
   };
 
   const reset = () => {

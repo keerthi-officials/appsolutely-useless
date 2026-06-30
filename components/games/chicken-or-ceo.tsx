@@ -160,7 +160,7 @@ return (
     <CardContent className="space-y-4">
       <div className="p-6 bg-linear-to-br from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg">
         <div className="text-lg font-medium leading-relaxed text-center">
-          "{quote.text}"
+          &quot;{quote.text}&quot;
         </div>
       </div>
 
@@ -212,7 +212,7 @@ return (
 
       {streak > 2 && (
         <div className="text-center p-2 bg-orange-100 border border-orange-200 rounded-lg">
-          <div className="text-sm">🔥 {streak} in a row! You're on fire!</div>
+          <div className="text-sm">🔥 {streak} in a row! You&apos;re on fire!</div>
         </div>
       )}
     </CardContent>

@@ -55,7 +55,7 @@ export function PunchSimulatorGame() {
       <CardHeader className="text-center">
         <CardTitle>👊 Punch Yourself Simulator</CardTitle>
         <p className="text-sm text-muted-foreground">
-          Why would you want to do this? We don't know either.
+          Why would you want to do this? We don&apos;t know either.
         </p>
       </CardHeader>
       <CardContent className="space-y-6">

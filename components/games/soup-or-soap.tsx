@@ -127,6 +127,7 @@ export function SoupOrSoapGame() {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="relative">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={question.imageUrl}
             alt="Mysterious substance"
@@ -168,7 +169,7 @@ export function SoupOrSoapGame() {
               <div className="text-2xl mb-2">
                 {userAnswer === question.answer ? "✅ Correct!" : "❌ Wrong!"}
               </div>
-              <div className="font-semibold">It's {question.answer}!</div>
+              <div className="font-semibold">It&apos;s {question.answer}!</div>
               <div className="text-sm text-muted-foreground mt-1">
                 {question.description}
               </div>

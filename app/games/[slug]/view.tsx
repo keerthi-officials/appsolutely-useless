@@ -38,13 +38,12 @@ export function GamePageClient({ slug }: GamePageClientProps) {
 
     updateGameStats(game.id, {
       timesPlayed: 1,
-      timeSpent: 0,
     });
 
     return () => {
       const timeSpent = Math.floor((Date.now() - now) / 1000);
+
       updateGameStats(game.id, {
-        timesPlayed: 0,
         timeSpent,
       });
     };
@@ -60,7 +59,7 @@ export function GamePageClient({ slug }: GamePageClientProps) {
         <div className="text-6xl mb-4">🤔</div>
         <h1 className="text-2xl font-bold mb-4">Game not found</h1>
         <p className="text-muted-foreground mb-6">
-          This game doesn't exist. Maybe it was too useless even for us?
+          This game doesn&apos;t exist. Maybe it was too useless even for us?
         </p>
         <Button onClick={() => router.push("/games")}>
           <ArrowLeft className="w-4 h-4 mr-2" />

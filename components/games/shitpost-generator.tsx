@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "../ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
-import { RefreshCw, Copy, Share } from "lucide-react"
-import { incrementTaps } from "@/lib/storage"
-import {toast} from "sonner"
-import { playSound } from "@/lib/sounds"
+import { useState } from "react";
+import { Button } from "../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { RefreshCw, Copy, Share } from "lucide-react";
+import { incrementTaps } from "@/lib/storage";
+import { toast } from "sonner";
+import { playSound } from "@/lib/sounds";
 
 const postTemplates = [
   "TIL that {adjective} {noun} {verb} {object} in {location}. Mind = {reaction}.",
@@ -234,19 +234,38 @@ const alternatives = [
 ];
 
 export function ShitpostGeneratorGame() {
-  const [currentPost, setCurrentPost] = useState("")
-  const [generatedCount, setGeneratedCount] = useState(0)
+  const [currentPost, setCurrentPost] = useState("");
+  const [generatedCount, setGeneratedCount] = useState(0);
 
-  const getRandomElement = (array: string[]) => {
-    return array[Math.floor(Math.random() * array.length)]
-  }
+  const ratings = [
+    { level: "Trash Tier", emoji: "🗑️", description: "So bad it's good" },
+    { level: "Cursed", emoji: "😈", description: "Questionable content" },
+    { level: "Chaotic Neutral", emoji: "🤪", description: "Pure randomness" },
+    { level: "Unhinged", emoji: "💀", description: "Concerning but funny" },
+    {
+      level: "Peak Shitpost",
+      emoji: "👑",
+      description: "Absolute masterpiece",
+    },
+    {
+      level: "Ascended",
+      emoji: "✨",
+      description: "Transcends human comprehension",
+    },
+  ] as const;
 
+  const [qualityRating, setQualityRating] = useState<
+    (typeof ratings)[number] | null
+  >(null);
+  const getRandomElement = <T,>(array: readonly T[]): T => {
+    return array[Math.floor(Math.random() * array.length)];
+  };
   const generatePost = () => {
-    incrementTaps()
+    incrementTaps();
 
-    const template = getRandomElement(postTemplates)
+    const template = getRandomElement(postTemplates);
 
-    let post = template
+    const post = template
       .replace(/{adjective}/g, () => getRandomElement(adjectives))
       .replace(/{noun}/g, () => getRandomElement(nouns))
       .replace(/{verb}/g, () => getRandomElement(verbs))
@@ -260,66 +279,41 @@ export function ShitpostGeneratorGame() {
       .replace(/{randomStatement}/g, () => getRandomElement(randomStatements))
       .replace(/{comparison}/g, () => getRandomElement(comparisons))
       .replace(/{alternative}/g, () => getRandomElement(alternatives));
-    
-      setCurrentPost(post)
-      setGeneratedCount(prev => prev + 1)
-      playSound("success")
-  }
+
+    setCurrentPost(post);
+    setGeneratedCount((prev) => prev + 1);
+    setQualityRating(getRandomElement(ratings));
+    playSound("success");
+  };
 
   const copyPost = async () => {
-    incrementTaps()
+    incrementTaps();
 
     if (!currentPost) return;
 
     try {
-      await navigator.clipboard.writeText(currentPost)
-      toast.success("Shitpost copied to clipboard!")
-      playSound("click")
-    } catch (err) {
-      toast.error("Failed to copy. Your shitpost is too powerful!")
+      await navigator.clipboard.writeText(currentPost);
+      toast.success("Shitpost copied to clipboard!");
+      playSound("click");
+    } catch {
+      toast.error("Failed to copy. Your shitpost is too powerful!");
     }
-  }
+  };
 
   const sharePost = () => {
     incrementTaps();
-    
+
     if (!currentPost) return;
-    
+
     if (navigator.share) {
       navigator.share({
-        title: 'Check out this shitpost!',
+        title: "Check out this shitpost!",
         text: currentPost,
       });
     } else {
       copyPost();
     }
   };
-
-  const getQualityRating = () => {
-    if (!currentPost) return null;
-
-   const ratings = [
-     { level: "Trash Tier", emoji: "🗑️", description: "So bad it's good" },
-     { level: "Cursed", emoji: "😈", description: "Questionable content" },
-     { level: "Chaotic Neutral", emoji: "🤪", description: "Pure randomness" },
-     { level: "Unhinged", emoji: "💀", description: "Concerning but funny" },
-     {
-       level: "Peak Shitpost",
-       emoji: "👑",
-       description: "Absolute masterpiece",
-     },
-     {
-       level: "Ascended",
-       emoji: "✨",
-       description: "Transcends human comprehension",
-     },
-   ];
-    
-
-    return ratings[Math.floor(Math.random() * ratings.length)]
-  }
-
-  const qualityRating = getQualityRating()
 
   return (
     <Card className="max-w-md mx-auto">

@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Gamepad2, Shuffle } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -16,7 +15,7 @@ export default function Home() {
       </div>
 
       <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto text-center">
-        Welcome to the world's most comprehensive collection of pointless
+        Welcome to the world&apos;s most comprehensive collection of pointless
         mini-games. This app eists purely for chaos and fun. Nothing Else.
       </p>
 

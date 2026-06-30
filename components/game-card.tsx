@@ -10,8 +10,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Heart, Play } from "lucide-react";
 import { Game } from "@/lib/game-data";
-import { getStats, addToFavorites, removeFromFavorites } from "@/lib/storage";
-import { useState, useEffect } from "react";
+import {
+  getStats,
+  addToFavorites,
+  removeFromFavorites,
+  UserStats,
+} from "@/lib/storage";
+import { useState } from "react";
 
 interface GameCardProps {
   game: Game;
@@ -19,14 +24,8 @@ interface GameCardProps {
 }
 
 export function GameCard({ game, showFavoriteButton = true }: GameCardProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [stats, setStats] = useState<any>(null);
-
-  useEffect(() => {
-    const currentStats = getStats();
-    setStats(currentStats);
-    setIsFavorite(currentStats.favorites.includes(game.id));
-  }, [game.id]);
+  const [stats, setStats] = useState<UserStats>(() => getStats());
+  const isFavorite = stats.favorites.includes(game.id);
 
   const toggleFavorite = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -34,11 +33,11 @@ export function GameCard({ game, showFavoriteButton = true }: GameCardProps) {
 
     if (isFavorite) {
       removeFromFavorites(game.id);
-      setIsFavorite(false);
     } else {
       addToFavorites(game.id);
-      setIsFavorite(true);
     }
+
+    setStats(getStats());
   };
 
   const getCategoryColor = (category: string) => {
