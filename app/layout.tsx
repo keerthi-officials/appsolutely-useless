@@ -46,8 +46,8 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1 pb-20 md:pb-4">{children}</main>
         </div>
+        <Toaster />
       </body>
-      <Toaster />
     </html>
   );
 }

@@ -11,6 +11,7 @@ import { ShitpostGeneratorGame } from "@/components/games/shitpost-generator";
 import { SoupOrSoapGame } from "@/components/games/soup-or-soap";
 import { TapToScreamGame } from "@/components/games/tap-to-scream";
 import { UselessButtonGame } from "@/components/games/useless-button";
+import { UselessnessPredictorGame } from "@/components/games/uselessness-predictor";
 import { WaitingGame } from "@/components/games/waiting-game";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -75,28 +76,30 @@ export function GamePageClient({ slug }: GamePageClientProps) {
         return <SoupOrSoapGame key={gameKey} />;
       case "punch-simulator":
         return <PunchSimulatorGame key={gameKey} />;
-      case "waiting-game":
-        return <WaitingGame key={gameKey} />;
       case "chicken-or-ceo":
         return <ChickenOrCeoGame key={gameKey} />;
-      case "banana-mood":
-        return <BananaMoodGame key={gameKey} />;
-      case "tap-to-scream":
-        return <TapToScreamGame key={gameKey} />;
-      case "fortune-cookie":
-        return <FortuneCookieGame key={gameKey} />;
       case "useless-button":
         return <UselessButtonGame key={gameKey} />;
-      case "rock-nft":
-        return <RockNftGame key={gameKey} />;
       case "invisible-cat":
         return <InvisibleCatGame key={gameKey} />;
+      case "banana-mood":
+        return <BananaMoodGame key={gameKey} />;
       case "pay-respects":
         return <PayRespectsGame key={gameKey} />;
       case "mosquito-slap":
         return <MosquitoSlapGame key={gameKey} />;
       case "shitpost-generator":
         return <ShitpostGeneratorGame key={gameKey} />;
+      case "tap-to-scream":
+        return <TapToScreamGame key={gameKey} />;
+      case "uselessness-predictor":
+        return <UselessnessPredictorGame key={gameKey} />;
+      case "waiting-game":
+        return <WaitingGame key={gameKey} />;
+      case "fortune-cookie":
+        return <FortuneCookieGame key={gameKey} />;
+      case "rock-nft":
+        return <RockNftGame key={gameKey} />;
       default:
         return <div>Game component not found</div>;
     }
