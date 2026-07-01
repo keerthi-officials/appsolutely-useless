@@ -19,7 +19,7 @@ import { getGameById } from "@/lib/game-data";
 import { updateGameStats } from "@/lib/storage";
 import { ArrowLeft, RotateCw } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface GamePageClientProps {
   slug: string;
@@ -28,21 +28,27 @@ interface GamePageClientProps {
 export function GamePageClient({ slug }: GamePageClientProps) {
   const router = useRouter();
   const [gameKey, setGameKey] = useState<number>(0);
+  const alreadyCounted = useRef(false);
 
   const game = getGameById(slug);
 
   useEffect(() => {
     if (!game) return;
 
-    const now = Date.now();
+    if (alreadyCounted.current) {
+      alreadyCounted.current = false;
+      return;
+    }
+    alreadyCounted.current = true;
+
+    const startedAt = Date.now();
 
     updateGameStats(game.id, {
       timesPlayed: 1,
     });
 
     return () => {
-      const timeSpent = Math.floor((Date.now() - now) / 1000);
-
+      const timeSpent = Math.floor((Date.now() - startedAt) / 1000);
       updateGameStats(game.id, {
         timeSpent,
       });
@@ -61,10 +67,10 @@ export function GamePageClient({ slug }: GamePageClientProps) {
         <p className="text-muted-foreground mb-6">
           This game doesn&apos;t exist. Maybe it was too useless even for us?
         </p>
-        <Button onClick={() => router.push("/games")}>
+        <Button onClick={() => router.push("/")}>
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Games
-        </Button>
+          Back to Home
+        </Button> 
       </div>
     );
   }
@@ -113,7 +119,7 @@ export function GamePageClient({ slug }: GamePageClientProps) {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => router.push("/games")}
+                onClick={() => router.push("/")}
               >
                 <ArrowLeft className="w-4 h-4" />
               </Button>

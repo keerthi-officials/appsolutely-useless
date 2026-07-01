@@ -13,9 +13,9 @@ export default function NotFound() {
       <p className="text-muted-foreground mb-6">
         The page you are looking for does not exist.
       </p>
-      <Button onClick={() => router.push("/games")}>
+      <Button onClick={() => router.push("/")}>
         <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to Games
+        Back to Home
       </Button>
     </div>
   );

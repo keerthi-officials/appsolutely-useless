@@ -1,39 +1,86 @@
+"use client";
+
+import { useState } from "react";
+import { Search, Shuffle } from "lucide-react";
+import { GameCard } from "@/components/game-card";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Gamepad2, Shuffle } from "lucide-react";
-import Link from "next/link";
+import { games } from "@/lib/game-data";
+import { useRouter } from "next/navigation";
+import { getRandomGame } from "@/lib/game-data";
 
 export default function Home() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
+
+  const filteredGames = games.filter((game) => {
+    if (!searchTerm) return true;
+    const query = searchTerm.toLowerCase();
+    return (
+      game.title.toLowerCase().includes(query) ||
+      game.description.toLowerCase().includes(query)
+    );
+  });
+
+  const randomGen = () => {
+    const randomGame = getRandomGame();
+    const timer = setTimeout(() => {
+      router.push(`/${randomGame.id}`);
+    }, 200);
+    return () => clearTimeout(timer);
+  }
+
   return (
-    <div className="max-w-7xl sm:px-6 lg:px-8 mx-auto px-4 py-8">
-      <div className="text-center mb-4">
-        <div className="flex items-center justify-center space-x-3 mb-4">
-          <span className="text-6xl">🥔</span>
-        </div>
-        <h1 className="text-4xl md:text-6xl font-bold text-[#2a2929]">
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <header className="mb-8 text-center">
+        <span className="text-6xl">🥔</span>
+        <h1 className="mt-4 text-4xl font-bold text-[#2a2929] md:text-6xl">
           Appsolutely Useless
         </h1>
+        <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+          A collection of pointless mini-games. No purpose, no point, just
+          chaos.
+        </p>
+      </header>
+
+      <div className="mb-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div className="relative w-full max-w-md">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Search for useless games..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <Button
+          size="lg"
+          variant="outline"
+          onClick={randomGen}
+          className="flex items-center gap-2"
+        >
+          <Shuffle className="h-5 w-5" />
+          Random Game
+        </Button>
       </div>
 
-      <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto text-center">
-        Welcome to the world&apos;s most comprehensive collection of pointless
-        mini-games. This app exists purely for chaos and fun. Nothing Else.
+      {filteredGames.length === 0 ? (
+        <div className="py-12 text-center">
+          <div className="mb-4 text-6xl">🔍</div>
+          <h3 className="mb-2 text-xl font-semibold">No games found</h3>
+          <p className="text-muted-foreground">Try a different search term.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredGames.map((game) => (
+            <GameCard key={game.id} game={game} />
+          ))}
+        </div>
+      )}
+
+      <p className="mt-12 text-center text-sm text-muted-foreground">
+        Showing {filteredGames.length} of {games.length} games.
       </p>
-
-      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <Button size="lg" asChild>
-          <Link href="/games" className="flex items-center space-x-2">
-            <Gamepad2 className="w-5 h-5" />
-            <span>Explore Games</span>
-          </Link>
-        </Button>
-
-        <Button size="lg" variant="outline" asChild>
-          <Link href="/random" className="flex items-center space-x-2">
-            <Shuffle className="w-5 h-5" />
-            <span>Random Game</span>
-          </Link>
-        </Button>
-      </div>
     </div>
   );
 }

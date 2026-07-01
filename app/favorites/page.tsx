@@ -31,9 +31,6 @@ export default function FavoritesPage() {
             Start playing games and add them to your favorites by clicking the
             heart icon
           </p>
-          <Button asChild>
-            <Link href="/games">Explore Games</Link>
-          </Button>
         </div>
       ) : (
         <>

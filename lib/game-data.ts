@@ -110,7 +110,7 @@ export const games: Game[] = [
   },
   {
     id: "fortune-cookie",
-    title: "Fortune Cookie That Tells You to Quit",
+    title: "Fortune Cookie Makes You Quit",
     description: "Get Brutally honest life advice from our wisdom cookies.",
     emoji: "🥠",
     category: "annoying",

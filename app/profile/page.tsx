@@ -228,7 +228,7 @@ export default function ProfilePage() {
               {achievements.map((achievement, index) => (
                 <div
                   key={index}
-                  className="p-3 bg-linear-to-r from-yellow-100 to-orange-100 border border-yellow-300 rounded-lg"
+                  className="p-3 border border-yellow-300 rounded-lg"
                 >
                   <div className="text-lg mb-1">🏆</div>
                   <div className="text-sm font-medium">{achievement}</div>

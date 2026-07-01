@@ -149,7 +149,7 @@ export function FortuneCookieGame() {
   return (
     <Card className="max-w-md mx-auto">
       <CardHeader className="text-center">
-        <CardTitle>🥠 Fortune Cookie That Tells You to Quit</CardTitle>
+        <CardTitle>🥠 Fortune Cookie </CardTitle>
         <p className="text-sm text-muted-foreground">
           Get brutally honest life advice from our wisdom cookies
         </p>

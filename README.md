@@ -28,7 +28,6 @@ Built with Next.js. Includes an AI-powered "Uselessness Predictor" that uses rea
 ## Pages
 
 - **Home** (`/`) — landing page.
-- **Games** (`/games`) — browse the full collection by category.
 - **Random** (`/random`) — drops you into a random game. For when choosing is too much effort.
 - **Favorites** (`/favorites`) — games you marked as favorites (the ones you actually enjoyed).
 - **Profile** (`/profile`) — your useless stats, tracked automatically:

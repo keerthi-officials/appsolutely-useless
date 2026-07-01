@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
 import {
-  Gamepad2,
   Heart,
   Home,
   LucideProps,
@@ -26,8 +25,6 @@ export function Navbar() {
 
   const navItems: navItem[] = [
     { href: "/", label: "Home", icon: Home },
-    { href: "/games", label: "Games", icon: Gamepad2 },
-    { href: "/random", label: "Random", icon: Shuffle },
     { href: "/favorites", label: "Favorites", icon: Heart },
     { href: "/profile", label: "Profile", icon: User },
   ];

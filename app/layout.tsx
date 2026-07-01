@@ -41,7 +41,7 @@ export default function RootLayout({
       )}
       suppressHydrationWarning
     >
-      <body className="h-full bg-linear-to-br from-purple-50 via-white to-teal-50">
+      <body className="h-full bg-background text-foreground">
         <div className="min-h-full flex flex-col">
           <Navbar />
           <main className="flex-1 pb-20 md:pb-4">{children}</main>
