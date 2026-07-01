@@ -235,7 +235,6 @@ const alternatives = [
 
 export function ShitpostGeneratorGame() {
   const [currentPost, setCurrentPost] = useState("");
-  const [generatedCount, setGeneratedCount] = useState(0);
 
   const ratings = [
     { level: "Trash Tier", emoji: "🗑️", description: "So bad it's good" },
@@ -281,7 +280,6 @@ export function ShitpostGeneratorGame() {
       .replace(/{alternative}/g, () => getRandomElement(alternatives));
 
     setCurrentPost(post);
-    setGeneratedCount((prev) => prev + 1);
     setQualityRating(getRandomElement(ratings));
     playSound("success");
   };
@@ -322,11 +320,6 @@ export function ShitpostGeneratorGame() {
         <p className="text-sm text-muted-foreground">
           Generate the most random, useless posts imaginable
         </p>
-        {generatedCount > 0 && (
-          <div className="text-sm">
-            Posts Generated: <span className="font-bold">{generatedCount}</span>
-          </div>
-        )}
       </CardHeader>
       <CardContent className="space-y-4">
         {!currentPost ? (
@@ -384,32 +377,6 @@ export function ShitpostGeneratorGame() {
             </Button>
           </>
         )}
-
-        {generatedCount > 0 && (
-          <div className="p-3 bg-muted/50 rounded-lg text-center">
-            <div className="text-sm text-muted-foreground">
-              {generatedCount === 1 &&
-                "Your first shitpost! Many more to come."}
-              {generatedCount > 1 &&
-                generatedCount < 5 &&
-                "You're getting the hang of this!"}
-              {generatedCount >= 5 &&
-                generatedCount < 10 &&
-                "Shitpost machine activated!"}
-              {generatedCount >= 10 &&
-                generatedCount < 25 &&
-                "Professional shitposter status achieved!"}
-              {generatedCount >= 25 &&
-                "You are now a certified Shitpost Master! 🏆"}
-            </div>
-          </div>
-        )}
-
-        <div className="text-xs text-muted-foreground text-center space-y-1">
-          <p>⚠️ Warning: May cause uncontrollable laughter</p>
-          <p>📱 Perfect for social media confusion</p>
-          <p>🧠 No brain cells were harmed in the making</p>
-        </div>
       </CardContent>
     </Card>
   );
