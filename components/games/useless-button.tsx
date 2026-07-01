@@ -48,6 +48,15 @@ export function UselessButtonGame() {
     return colors[count % colors.length];
   };
 
+  const achievements = [
+    { threshold: 1, label: "First Click" },
+    { threshold: 10, label: "Double Digits" },
+    { threshold: 50, label: "Half Century" },
+    { threshold: 100, label: "Centurion" },
+    { threshold: 500, label: "Time Waster" },
+    { threshold: 1000, label: "Legend" },
+  ];
+
   const motivation = getMotivationalMessage(count);
   const buttonSize = getButtonSize();
   const buttonColor = getButtonColor();
@@ -70,7 +79,7 @@ export function UselessButtonGame() {
       <CardHeader className="text-center">
         <CardTitle>🔘 The Button That Does Nothing</CardTitle>
         <p className="text-sm text-muted-foreground">
-          Revolutionary technolog that counts clicks. Patent pending.
+          Revolutionary technology that counts clicks. Patent pending.
         </p>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -79,7 +88,7 @@ export function UselessButtonGame() {
             onClick={handleClick}
             className={`${buttonSize} rounded-full font-bold text-2xl transition-all duration-200 ${
               isAnimating ? "scale-110" : "scale-100"
-            } bg-linear-to-r ${buttonColor} hover:scale-150 shadow-lg`}
+            } bg-linear-to-r ${buttonColor} hover:scale-105 shadow-lg`}
           >
             CLICK
           </Button>
@@ -94,44 +103,26 @@ export function UselessButtonGame() {
           </div>
         </div>
 
-        <div className="text-center p-4 bg-linear-to-r from-purple-50 to-teal-50 border border-purple-200 rounded-lg">
+        <div className="text-center p-4 border rounded-lg">
           <p className="text-sm italic">{motivation}</p>
         </div>
 
         {count > 0 && (
-          <div className="space-y-2">
-            <div className="text-sm font-medium">🏆 Achievements Unlocked:</div>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {count >= 1 && (
-                <div className="p-2 bg-green-100 border border-green-300 rounded text-center">
-                  First Click!
-                </div>
-              )}
-              {count >= 10 && (
-                <div className="p-2 bg-blue-100 border border-blue-300 rounded text-center">
-                  Double Digits
-                </div>
-              )}
-              {count >= 50 && (
-                <div className="p-2 bg-purple-100 border border-purple-300 rounded text-center">
-                  Half Century
-                </div>
-              )}
-              {count >= 100 && (
-                <div className="p-2 bg-orange-100 border border-orange-300 rounded text-center">
-                  Centurion
-                </div>
-              )}
-              {count >= 500 && (
-                <div className="p-2 bg-red-100 border border-red-300 rounded text-center">
-                  Time Waster
-                </div>
-              )}
-              {count >= 1000 && (
-                <div className="p-2 bg-yellow-100 border border-yellow-300 rounded text-center">
-                  Legend
-                </div>
-              )}
+          <div>
+            <div className="text-sm font-medium mb-2">
+              🏆 Achievements unlocked:
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {achievements
+                .filter((a) => count >= a.threshold)
+                .map((a) => (
+                  <span
+                    key={a.label}
+                    className="text-xs px-2 py-1 border rounded-full bg-muted"
+                  >
+                    {a.label}
+                  </span>
+                ))}
             </div>
           </div>
         )}

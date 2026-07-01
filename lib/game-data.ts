@@ -35,6 +35,24 @@ export const games: Game[] = [
     estimatedTime: "3 min",
   },
   {
+    id: "mosquito-slap",
+    title: "Virtual Mosquito Slap",
+    description: "Hunt down the annoying mosquito before it escapes!",
+    emoji: "🦟",
+    category: "annoying",
+    estimatedTime: "2 min",
+  },
+  {
+    id: "uselessness-predictor",
+    title: "AI Predicts Uselessness",
+    description:
+      "Our AI will scientifically determine how useless anything is.",
+    emoji: "🤖",
+    category: "confusing",
+    estimatedTime: "3 min",
+  },
+
+  {
     id: "useless-button",
     title: "The Button That Does Nothing",
     description: "A button, It counts. That's it. Truly revolutionary.",
@@ -67,14 +85,6 @@ export const games: Game[] = [
     estimatedTime: "1 min",
   },
   {
-    id: "mosquito-slap",
-    title: "Virtual Mosquito Slap",
-    description: "Hunt down the annoying mosquito before it escapes!",
-    emoji: "🦟",
-    category: "annoying",
-    estimatedTime: "2 min",
-  },
-  {
     id: "shitpost-generator",
     title: "Daily Shitpost Generator",
     description: "Generate the most random, useless posts imaginable.",
@@ -89,15 +99,6 @@ export const games: Game[] = [
     emoji: "😱",
     category: "annoying",
     estimatedTime: "2 min",
-  },
-  {
-    id: "uselessness-predictor",
-    title: "AI Predicts Uselessness",
-    description:
-      "Our AI will scientifically determine how useless anything is.",
-    emoji: "🤖",
-    category: "confusing",
-    estimatedTime: "3 min",
   },
   {
     id: "waiting-game",

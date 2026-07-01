@@ -124,7 +124,7 @@ export function InvisibleCatGame() {
           >
             <div className="text-center text-purple-600">
               <div className="text-4xl mb-2">👆</div>
-              <div className="text-sm font-medium">
+              <div className="text-sm font-medium pointer-events-none">
                 Click anywhere to pet the invisible cat!
               </div>
             </div>
@@ -154,32 +154,11 @@ export function InvisibleCatGame() {
           </div>
         </div>
 
-        <div className="p-4 bg-linear-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg">
-          <div className="text-sm text-center">
-            {petCount === 0 && "The cat is waiting for attention..."}
-            {petCount > 0 &&
-              petCount < 10 &&
-              "You're getting the hang of invisible cat petting!"}
-            {petCount >= 10 && petCount < 25 && "The cat really likes you now!"}
-            {petCount >= 25 &&
-              petCount < 50 &&
-              "You're becoming a professional invisible cat petter!"}
-            {petCount >= 50 &&
-              "You are now the official Invisible Cat Whisperer! 🏆"}
-          </div>
-        </div>
-
         {petCount > 0 && (
           <Button variant="outline" onClick={resetCat} className="w-full">
             🔄 Find a New Invisible Cat
           </Button>
         )}
-
-        <div className="text-xs text-muted-foreground text-center space-y-1">
-          <p>• This cat is 100% invisible and 100% real</p>
-          <p>• No actual cats were harmed in the making of this game</p>
-          <p>• Results may vary depending on your cat-petting skills</p>
-        </div>
       </CardContent>
     </Card>
   );

@@ -76,12 +76,23 @@ const moodOptions = [
   "Happy",
   "Sad",
   "Angry",
-  "Excited",
+  "Nervous",
   "Tired",
   "Confused",
   "Cool",
   "Silly",
 ];
+
+const moodToGuess: Record<string, string> = {
+  Cheerful: "Happy",
+  Melancholic: "Sad",
+  Sleepy: "Tired",
+  Furious: "Angry",
+  Philosophical: "Confused",
+  Cool: "Cool",
+  Pleading: "Nervous",
+  Wacky: "Silly",
+};
 
 export function BananaMoodGame() {
   const [currentBanana, setCurrentBanana] = useState<BananaMood | null>(null);
@@ -104,17 +115,7 @@ export function BananaMoodGame() {
     setShowAnswer(true);
     setAttempts((prev) => prev + 1);
 
-    const isCorrect =
-      guess.toLowerCase().includes(currentBanana!.mood.toLowerCase()) ||
-      currentBanana!.mood.toLowerCase().includes(guess.toLowerCase()) ||
-      (guess === "Happy" &&
-        ["Cheerful", "Cool", "Wacky"].includes(currentBanana!.mood)) ||
-      (guess === "Sad" &&
-        ["Melancholic", "Pleading"].includes(currentBanana!.mood)) ||
-      (guess === "Tired" && currentBanana!.mood === "Sleepy") ||
-      (guess === "Angry" && currentBanana!.mood === "Furious") ||
-      (guess === "Confused" && currentBanana!.mood === "Philosophical") ||
-      (guess === "Silly" && currentBanana!.mood === "Wacky");
+    const isCorrect = moodToGuess[currentBanana!.mood] === guess;
 
     if (isCorrect) {
       setScore((prev) => prev + 1);
@@ -193,10 +194,7 @@ export function BananaMoodGame() {
                 >
                   <div className="text-center space-y-2">
                     <div className="text-2xl">
-                      {userGuess &&
-                      userGuess
-                        .toLowerCase()
-                        .includes(currentBanana.mood.toLowerCase())
+                      {moodToGuess[currentBanana.mood] === userGuess
                         ? "✅"
                         : "❌"}
                     </div>
@@ -241,12 +239,6 @@ export function BananaMoodGame() {
             🔄 Start Fresh
           </Button>
         )}
-
-        <div className="text-xs text-muted-foreground text-center space-y-1">
-          <p>• All banana moods are scientifically verified*</p>
-          <p>• *Not actually scientifically verified</p>
-          <p>• No bananas were emotionally harmed in this game</p>
-        </div>
       </CardContent>
     </Card>
   );

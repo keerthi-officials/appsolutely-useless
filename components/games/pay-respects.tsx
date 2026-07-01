@@ -6,36 +6,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useState } from "react";
 import { playSound } from "@/lib/sounds";
 
-const RESPECT_STORAGE_KEY = "global-respect-count";
-
 export function PayRespectsGame() {
   const [personalRespects, setPersonalRespects] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [showRipple, setShowRipple] = useState(false);
-  const [globalRespects, setGlobalRespects] = useState(() => {
-    if (typeof window === "undefined") {
-      return 0;
-    }
-
-    const stored = localStorage.getItem(RESPECT_STORAGE_KEY);
-    return stored ? parseInt(stored, 10) : 0;
-  });
-
-  const saveGlobalRespects = (count: number) => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem(RESPECT_STORAGE_KEY, count.toString());
-    }
-  };
 
   const pressF = () => {
     incrementTaps();
 
-    const newPersonal = personalRespects + 1;
-    const newGlobal = globalRespects + 1;
-
-    setPersonalRespects(newPersonal);
-    setGlobalRespects(newGlobal);
-    saveGlobalRespects(newGlobal);
+    setPersonalRespects((prev) => prev + 1);
 
     setIsAnimating(true);
     setShowRipple(true);
@@ -93,6 +72,14 @@ export function PayRespectsGame() {
     return "You are the embodiment of respect itself. F for legendary status!";
   };
 
+  const achievements = [
+    { threshold: 1, label: "First F" },
+    { threshold: 10, label: "Respectful" },
+    { threshold: 25, label: "Honor Guard" },
+    { threshold: 50, label: "Respect Master" },
+    { threshold: 100, label: "F Legend" },
+  ];
+
   return (
     <Card className="max-w-md mx-auto">
       <CardHeader className="text-center">
@@ -143,54 +130,24 @@ export function PayRespectsGame() {
         </div>
 
         {personalRespects > 0 && (
-          <div className="space-y-2">
-            <div className="text-sm font-medium">🏆 Respect Achievements:</div>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {personalRespects >= 1 && (
-                <div className="p-2 bg-blue-100 border border-blue-300 rounded text-center">
-                  First F!
-                </div>
-              )}
-              {personalRespects >= 10 && (
-                <div className="p-2 bg-green-100 border border-green-300 rounded text-center">
-                  Respectful
-                </div>
-              )}
-              {personalRespects >= 25 && (
-                <div className="p-2 bg-purple-100 border border-purple-300 rounded text-center">
-                  Honor Guard
-                </div>
-              )}
-              {personalRespects >= 50 && (
-                <div className="p-2 bg-orange-100 border border-orange-300 rounded text-center">
-                  Respect Master
-                </div>
-              )}
-              {personalRespects >= 100 && (
-                <div className="p-2 bg-yellow-100 border border-yellow-300 rounded text-center">
-                  F Legend
-                </div>
-              )}
-              {globalRespects >= 1000 && (
-                <div className="p-2 bg-red-100 border border-red-300 rounded text-center">
-                  Global Impact
-                </div>
-              )}
+          <div>
+            <div className="text-sm font-medium mb-2">
+              🏆 Respect achievements:
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {achievements
+                .filter((a) => personalRespects >= a.threshold)
+                .map((a) => (
+                  <span
+                    key={a.label}
+                    className="text-xs px-2 py-1 border rounded-full bg-muted"
+                  >
+                    {a.label}
+                  </span>
+                ))}
             </div>
           </div>
         )}
-
-        <div className="text-center p-3 bg-gray-50 border border-gray-200 rounded-lg">
-          <div className="text-sm font-medium mb-2">
-            Currently Paying Respects To:
-          </div>
-          <div className="text-xs text-muted-foreground space-y-1">
-            <div>• The time you spent clicking this button</div>
-            <div>• Your productivity that died today</div>
-            <div>• The meaning of pressing F</div>
-            <div>• Everything and nothing simultaneously</div>
-          </div>
-        </div>
 
         {personalRespects > 0 && (
           <Button variant="outline" onClick={reset} className="w-full">

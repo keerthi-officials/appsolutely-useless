@@ -111,7 +111,7 @@ export function GamePageClient({ slug }: GamePageClientProps) {
   };
 
   return (
-    <div className="max-w-7xl sm:px-6 lg:px-8 mx-auto px-4 py-8">
+    <div className="max-w-7xl sm:px-6 lg:px-8 mx-auto px-4 pb-8">
       <Card className="mb-6">
         <CardHeader>
           <div className="flex items-center justify-between">
