@@ -76,77 +76,69 @@ const medals: Medal[] = [
   },
 ];
 
+const motivationalMessages = [
+  "You're doing great! Keep waiting!",
+  "This is definitely a productive use of time.",
+  "The art of doing nothing is underrated.",
+  "You're building character through boredom.",
+  "Patience is a virtue... or so they say.",
+  "Think of all the things you could be doing instead!",
+  "This is meditation for the digital age.",
+  "You're becoming one with the void.",
+  "Time is an illusion anyway.",
+  "You're winning at not winning!",
+  "The longer you wait, the more impressive it becomes.",
+  "You're setting a personal record in pointlessness!",
+];
+
 export function WaitingGame() {
   const [isWaiting, setIsWaiting] = useState(false);
   const [timeWaited, setTimeWaited] = useState(0);
   const [currentMedal, setCurrentMedal] = useState<Medal | null>(null);
-  const [earnedMedals, setEarnedMedals] = useState<Medal[]>([]);
   const [motivationalMessage, setMotivationalMessage] = useState("");
-  const [bestTime, setBestTime] = useState(() => {
-    if (typeof window === "undefined") return 0;
+  const [bestTime, setBestTime] = useState(0);
 
-    const saved = localStorage.getItem("waiting-game-best");
-    return saved ? parseInt(saved, 10) : 0;
-  });
-
-  const intervalRef = useRef<NodeJS.Timeout>(setInterval(() => {}));
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(0);
 
-  const updateMotivationalMessage = (seconds: number) => {
-    const messages = [
-      "You're doing great! Keep waiting!",
-      "This is definitely a productive use of time.",
-      "The art of doing nothing is underrated.",
-      "You're building character through boredom.",
-      "Patience is a virtue... or so they say.",
-      "Think of all the things you could be doing instead!",
-      "This is meditation for the digital age.",
-      "You're becoming one with the void.",
-      "Time is an illusion anyway.",
-      "You're winning at not winning!",
-      "The longer you wait, the more impressive it becomes.",
-      "You're setting a personal record in pointlessness!",
-    ];
-
-    if (seconds % 15 === 0 && seconds > 0) {
-      setMotivationalMessage(
-        messages[Math.floor(Math.random() * messages.length)],
-      );
-    }
-  };
+  useEffect(() => {
+    const saved = localStorage.getItem("waiting-game-best");
+    setBestTime(saved ? parseInt(saved, 10) : 0);
+  }, []);
 
   useEffect(() => {
-    if (isWaiting) {
-      intervalRef.current = setInterval(() => {
-        const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
-        setTimeWaited(elapsed);
-
-        const availableMedal = medals
-          .filter((medal) => elapsed >= medal.timeRequired)
-          .pop();
-
-        if (availableMedal && availableMedal !== currentMedal) {
-          setCurrentMedal(availableMedal);
-          if (!earnedMedals.includes(availableMedal)) {
-            setEarnedMedals((prev) => [...prev, availableMedal]);
-            playSound("success");
-          }
-        }
-
-        updateMotivationalMessage(elapsed);
-      }, 1000);
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+    if (!isWaiting) {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      return;
     }
 
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
+      setTimeWaited(elapsed);
+
+      const availableMedal = medals
+        .filter((m) => elapsed >= m.timeRequired)
+        .pop();
+
+      if (availableMedal) {
+        setCurrentMedal((prev) =>
+          prev?.name === availableMedal.name ? prev : availableMedal,
+        );
       }
+
+      if (elapsed % 15 === 0 && elapsed > 0) {
+        setMotivationalMessage(
+          motivationalMessages[
+            Math.floor(Math.random() * motivationalMessages.length)
+          ],
+        );
+      }
+    }, 1000);
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isWaiting, currentMedal, earnedMedals]);
+  }, [isWaiting]);
 
   const startWaiting = () => {
     incrementTaps();
@@ -164,7 +156,6 @@ export function WaitingGame() {
       setBestTime(timeWaited);
       localStorage.setItem("waiting-game-best", timeWaited.toString());
     }
-
     playSound("fail");
   };
 
@@ -181,13 +172,9 @@ export function WaitingGame() {
     const min = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
 
-    if (hrs > 0) {
-      return `${hrs}h ${min}m ${secs}s`;
-    } else if (min > 0) {
-      return `${min}m ${secs}s`;
-    } else {
-      return `${secs}s`;
-    }
+    if (hrs > 0) return `${hrs}h ${min}m ${secs}s`;
+    if (min > 0) return `${min}m ${secs}s`;
+    return `${secs}s`;
   };
 
   const getWaitingEmoji = () => {
@@ -281,57 +268,6 @@ export function WaitingGame() {
             </div>
           </div>
         )}
-
-        {earnedMedals.length > 0 && (
-          <div className="space-y-2">
-            <div className="text-sm font-medium">🏆 Medals Earned:</div>
-            <div className="grid grid-cols-2 gap-2">
-              {earnedMedals.map((medal, index) => (
-                <div
-                  key={index}
-                  className="p-2 bg-linear-to-r from-yellow-100 to-orange-100 border border-yellow-300 rounded text-center"
-                >
-                  <div className="text-lg">{medal.emoji}</div>
-                  <div className="text-xs font-medium">{medal.name}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {isWaiting && currentMedal && (
-          <div className="text-center p-3 bg-gray-50 border border-gray-200 rounded-lg">
-            <div className="text-sm text-muted-foreground">Next Medal:</div>
-            {(() => {
-              const nextMedal = medals.find(
-                (medal) => medal.timeRequired > timeWaited,
-              );
-              if (nextMedal) {
-                const timeLeft = nextMedal.timeRequired - timeWaited;
-                return (
-                  <div>
-                    <div className="font-medium">
-                      {nextMedal.emoji} {nextMedal.name}
-                    </div>
-                    <div className="text-xs">in {formatTime(timeLeft)}</div>
-                  </div>
-                );
-              } else {
-                return (
-                  <div className="text-sm">
-                    You&apos;ve earned all medals! 🎉
-                  </div>
-                );
-              }
-            })()}
-          </div>
-        )}
-
-        <div className="text-xs text-muted-foreground text-center space-y-1">
-          <p>📱 Stay on this page to keep the timer running</p>
-          <p>⏰ Switching tabs or apps will pause your progress</p>
-          <p>🏆 Earn medals for reaching time milestones</p>
-        </div>
       </CardContent>
     </Card>
   );

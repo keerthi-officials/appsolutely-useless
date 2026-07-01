@@ -90,68 +90,41 @@ const rockTypes: Omit<Rock, "id">[] = [
 const STORAGE_KEY = "rock-nft-collection";
 
 export function RockNftGame() {
-  const [selectedRock, setSelectedRock] = useState<Omit<Rock, `id`> | null>(
+  const [selectedRock, setSelectedRock] = useState<Omit<Rock, "id"> | null>(
     null,
   );
   const [isMinting, setIsMinting] = useState(false);
-  const initialData: {
-    collection: Rock[];
-    balance: number;
-    totalSpent: number;
-  } = (() => {
-    if (typeof window === "undefined") {
-      return {
-        collection: [] as Rock[],
-        balance: 10,
-        totalSpent: 0,
-      };
-    }
-
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-
-      if (!saved) {
-        return {
-          collection: [] as Rock[],
-          balance: 10,
-          totalSpent: 0,
-        };
-      }
-
-      const data = JSON.parse(saved) as {
-        collection?: Rock[];
-        balance?: number;
-        totalSpent?: number;
-      };
-      return {
-        collection: data.collection ?? [],
-        balance: data.balance ?? 10,
-        totalSpent: data.totalSpent ?? 0,
-      };
-    } catch (err) {
-      console.error("Failed to load rock collection:", err);
-
-      return {
-        collection: [] as Rock[],
-        balance: 10,
-        totalSpent: 0,
-      };
-    }
-  })();
-  const [collection, setCollection] = useState(initialData.collection);
-  const [balance, setBalance] = useState(initialData.balance);
-  const [totalSpent, setTotalSpent] = useState(initialData.totalSpent);
+  const [collection, setCollection] = useState<Rock[]>([]);
+  const [balance, setBalance] = useState(10);
+  const [totalSpent, setTotalSpent] = useState(0);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const data = JSON.parse(saved) as {
+          collection?: Rock[];
+          balance?: number;
+          totalSpent?: number;
+        };
+        setCollection(data.collection ?? []);
+        setBalance(data.balance ?? 10);
+        setTotalSpent(data.totalSpent ?? 0);
+      }
+    } catch (err) {
+      console.error("Failed to load rock collection:", err);
+    }
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) return;
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({
-        collection,
-        balance,
-        totalSpent,
-      }),
+      JSON.stringify({ collection, balance, totalSpent }),
     );
-  }, [collection, balance, totalSpent]);
+  }, [collection, balance, totalSpent, loaded]);
 
   const selectRandomRock = () => {
     incrementTaps();
@@ -160,12 +133,12 @@ export function RockNftGame() {
     const totalWeight = Object.values(weights).reduce((a, b) => a + b, 0);
     const random = Math.random() * totalWeight;
 
-    let currentWeght = 0;
+    let currentWeight = 0;
     let selectedRarity: keyof typeof weights = "common";
 
     for (const [rarity, weight] of Object.entries(weights)) {
-      currentWeght += weight;
-      if (random <= currentWeght) {
+      currentWeight += weight;
+      if (random <= currentWeight) {
         selectedRarity = rarity as keyof typeof weights;
         break;
       }
@@ -192,13 +165,9 @@ export function RockNftGame() {
         id: `rock-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       };
 
-      const newCollection = [...collection, newRock];
-      const newBalance = balance - selectedRock.price;
-      const newTotalSpent = totalSpent + selectedRock.price;
-
-      setCollection(newCollection);
-      setBalance(newBalance);
-      setTotalSpent(newTotalSpent);
+      setCollection((prev) => [...prev, newRock]);
+      setBalance((prev) => prev - selectedRock.price);
+      setTotalSpent((prev) => prev + selectedRock.price);
 
       setSelectedRock(null);
       setIsMinting(false);
@@ -221,15 +190,8 @@ export function RockNftGame() {
     }
   };
 
-  const getRarityStats = () => {
-    const stats = { common: 0, rare: 0, epic: 0, legendary: 0 };
-    collection.forEach((rock) => {
-      stats[rock.rarity]++;
-    });
-    return stats;
-  };
-
-  const rarityStats = getRarityStats();
+  const rarityStats = { common: 0, rare: 0, epic: 0, legendary: 0 };
+  collection.forEach((rock) => rarityStats[rock.rarity]++);
 
   const reset = () => {
     incrementTaps();
@@ -241,200 +203,166 @@ export function RockNftGame() {
   };
 
   return (
-    <Card className="max-w-md mx-auto">
-      <CardHeader className="text-center">
-        <CardTitle>Buy a Rock NFT (Fake)</CardTitle>
-        <p className="text-sm text-muted-foreground">
-          Mint and collect completely worthless digital rocks!
-        </p>
-        <div className="flex items-center justify-center space-x-4 text-sm">
-          <div className="flex items-center space-x-1">
-            <Coins className="w-4 h-4" />
-            <span>{balance.toFixed(3)} ETH</span>
-          </div>
-          <div>Collection: {collection.length}</div>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        {!selectedRock && !isMinting ? (
-          <div className="text-center space-y-4">
-            <div className="text-6xl">🪨</div>
-            <div className="text-lg">Discover Your Next Rock!</div>
-            <div className="text-sm text-muted-foreground">
-              Each rock is unique and completely worthless
+    <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-4">
+      <Card className="flex-1">
+        <CardHeader className="text-center">
+          <CardTitle>Buy a Rock NFT (Fake)</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Mint and collect completely worthless digital rocks!
+          </p>
+          <div className="flex items-center justify-center space-x-4 text-sm">
+            <div className="flex items-center space-x-1">
+              <Coins className="w-4 h-4" />
+              <span>{balance.toFixed(3)} ETH</span>
             </div>
-            <Button onClick={selectRandomRock} size="lg" className="w-full">
-              <Gem className="w-4 h-4 mr-2" />
-              Discover Rock
-            </Button>
+            <div>Collection: {collection.length}</div>
           </div>
-        ) : isMinting ? (
-          <div className="text-center space-y-4">
-            <div className="text-6xl">⚡</div>
-            <div className="text-lg">Minting Your Rock...</div>
-            <div className="text-sm text-muted-foreground">
-              Adding to the blockchain of disappointment...
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {!selectedRock && !isMinting ? (
+            <div className="text-center space-y-4">
+              <div className="text-6xl">🪨</div>
+              <div className="text-lg">Discover Your Next Rock!</div>
+              <div className="text-sm text-muted-foreground">
+                Each rock is unique and completely worthless
+              </div>
+              <Button onClick={selectRandomRock} size="lg" className="w-full">
+                <Gem className="w-4 h-4 mr-2" />
+                Discover Rock
+              </Button>
             </div>
-          </div>
-        ) : selectedRock ? (
-          <div className="space-y-4">
-            <div className="text-center p-4 bg-linear-to-br from-gray-50 to-gray-100 border-2 border-gray-200 rounded-lg">
-              <div className="text-6xl mb-2">{selectedRock.emoji}</div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-center space-x-2">
-                  <h3 className="text-lg font-semibold">{selectedRock.name}</h3>
-                  <Badge className={getRarityColor(selectedRock.rarity)}>
-                    {selectedRock.rarity}
-                  </Badge>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {selectedRock.description}
-                </p>
-                <div className="text-lg font-bold">
-                  {selectedRock.price} ETH
-                </div>
+          ) : isMinting ? (
+            <div className="text-center space-y-4">
+              <div className="text-6xl">⚡</div>
+              <div className="text-lg">Minting Your Rock...</div>
+              <div className="text-sm text-muted-foreground">
+                Adding to the blockchain of disappointment...
               </div>
             </div>
-            <div className="space-y-2">
-              <div className="text-sm font-medium">🏷️ Traits:</div>
-              <div className="flex felx-wrap gap-2">
+          ) : selectedRock ? (
+            <div className="space-y-4">
+              <div className="text-center p-4 bg-linear-to-br from-gray-50 to-gray-100 border-2 border-gray-200 rounded-lg">
+                <div className="text-6xl mb-2">{selectedRock.emoji}</div>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-center space-x-2">
+                    <h3 className="text-lg font-semibold">
+                      {selectedRock.name}
+                    </h3>
+                    <Badge className={getRarityColor(selectedRock.rarity)}>
+                      {selectedRock.rarity}
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {selectedRock.description}
+                  </p>
+                  <div className="text-lg font-bold">
+                    {selectedRock.price} ETH
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 justify-center">
                 {selectedRock.traits.map((trait, index) => (
                   <Badge key={index} variant="outline" className="text-xs">
                     {trait}
                   </Badge>
                 ))}
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Button
-                onClick={mintRock}
-                disabled={balance < selectedRock.price}
-                className="w-full"
-              >
-                <Star className="w-4 h-4 mr-2" />
-                {balance >= selectedRock.price
-                  ? "Mint Rock NFT"
-                  : "Insufficient Fund"}
-              </Button>
-
-              <Button
-                onClick={() => setSelectedRock(null)}
-                variant="outline"
-                className="w-full"
-              >
-                Find Different Rock
-              </Button>
-            </div>
-          </div>
-        ) : null}
-
-        {collection.length > 0 && (
-          <div className="space-y-3">
-            <div className="text-sm font-medium">🖼️ My Rock Collection:</div>
-            <div className="grid grid-cols-3 gap-2 max-h-32 overflow-y-auto">
-              {collection.slice(-6).map((rock) => (
-                <div
-                  key={rock.id}
-                  className="p-2 bg-linear-to-br from-gray-50 to-gray-100 border border-gray-200 rounded text-center"
+              <div className="space-y-2">
+                <Button
+                  onClick={mintRock}
+                  disabled={balance < selectedRock.price}
+                  className="w-full"
                 >
-                  <div className="text-2xl">{rock.emoji}</div>
-                  <div className="text-xs font-medium truncate">
-                    {rock.name}
+                  <Star className="w-4 h-4 mr-2" />
+                  {balance >= selectedRock.price
+                    ? "Mint Rock NFT"
+                    : "Insufficient Funds"}
+                </Button>
+
+                <Button
+                  onClick={() => setSelectedRock(null)}
+                  variant="outline"
+                  className="w-full"
+                >
+                  Find Different Rock
+                </Button>
+              </div>
+            </div>
+          ) : null}
+
+          {collection.length > 0 && (
+            <Button variant="outline" onClick={reset} className="w-full">
+              🗑️ Sell All Rocks (Reset Collection)
+            </Button>
+          )}
+
+          <div className="text-xs text-muted-foreground text-center space-y-1">
+            <p>⚠️ These NFTs have no real value</p>
+            <p>🪨 Rocks are stored in localStorage, not blockchain</p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {collection.length > 0 && (
+        <div className="w-full md:w-64 flex flex-col gap-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">🖼️ My Collection</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto">
+                {collection.slice(-6).map((rock) => (
+                  <div
+                    key={rock.id}
+                    className="p-2 bg-linear-to-br from-gray-50 to-gray-100 border border-gray-200 rounded text-center"
+                  >
+                    <div className="text-2xl">{rock.emoji}</div>
+                    <div className="text-xs font-medium truncate">
+                      {rock.name}
+                    </div>
                   </div>
-                  <Badge className={`${getRarityColor(rock.rarity)} text-xs`}>
-                    {rock.rarity}
-                  </Badge>
-                </div>
-              ))}
-            </div>
-            {collection.length > 6 && (
-              <div className="text-xs text-center text-muted-foreground">
-                Showing latest 6 of {collection.length} rocks
+                ))}
               </div>
-            )}
-          </div>
-        )}
+              {collection.length > 6 && (
+                <div className="text-xs text-muted-foreground mt-2">
+                  Latest 6 of {collection.length}
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-        {collection.length > 0 && (
-          <div className="space-y-3">
-            <div className="text-sm font-medium">📊 Collection Stats:</div>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div className="p-2 bg-gray-100 rounded text-center">
-                <div className="font-semibold">{rarityStats.common}</div>
-                <div>Common</div>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">📊 Stats</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="p-2 bg-gray-100 rounded text-center">
+                  <div className="font-semibold">{rarityStats.common}</div>
+                  <div>Common</div>
+                </div>
+                <div className="p-2 bg-blue-100 rounded text-center">
+                  <div className="font-semibold">{rarityStats.rare}</div>
+                  <div>Rare</div>
+                </div>
+                <div className="p-2 bg-purple-100 rounded text-center">
+                  <div className="font-semibold">{rarityStats.epic}</div>
+                  <div>Epic</div>
+                </div>
+                <div className="p-2 bg-yellow-100 rounded text-center">
+                  <div className="font-semibold">{rarityStats.legendary}</div>
+                  <div>Legendary</div>
+                </div>
               </div>
-              <div className="p-2 bg-blue-100 rounded text-center">
-                <div className="font-semibold">{rarityStats.rare}</div>
-                <div>Rare</div>
+              <div className="text-sm mt-3">
+                Spent:{" "}
+                <span className="font-bold">{totalSpent.toFixed(3)}</span>
               </div>
-              <div className="p-2 bg-purple-100 rounded text-center">
-                <div className="font-semibold">{rarityStats.epic}</div>
-                <div>Epic</div>
-              </div>
-              <div className="p-2 bg-yellow-100 rounded text-center">
-                <div className="font-semibold">{rarityStats.legendary}</div>
-                <div>Legendary</div>
-              </div>
-            </div>
-            <div className="text-center text-sm">
-              Total Spent:{" "}
-              <span className="font-bold">{totalSpent.toFixed(3)}</span>
-            </div>
-          </div>
-        )}
-
-        {collection.length > 0 && (
-          <div className="space-y-2">
-            <div className="text-sm font-medium">🏆 NFT Achievements:</div>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {collection.length >= 1 && (
-                <div className="p-2 bg-green-100 border border-green-300 rounded text-center">
-                  First Rock!
-                </div>
-              )}
-              {collection.length >= 5 && (
-                <div className="p-2 bg-blue-100 border border-blue-300 rounded text-center">
-                  Collector
-                </div>
-              )}
-              {collection.length >= 10 && (
-                <div className="p-2 bg-purple-100 border border-purple-300 rounded text-center">
-                  Rock Hoarder
-                </div>
-              )}
-              {rarityStats.legendary > 0 && (
-                <div className="p-2 bg-yellow-100 border border-yellow-300 rounded text-center">
-                  Legendary Owner
-                </div>
-              )}
-              {totalSpent >= 1 && (
-                <div className="p-2 bg-red-100 border border-red-300 rounded text-center">
-                  Big Spender
-                </div>
-              )}
-              {Object.values(rarityStats).every((count) => count > 0) && (
-                <div className="p-2 bg-orange-100 border border-orange-300 rounded text-center">
-                  Completionist
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {collection.length > 0 && (
-          <Button variant="outline" onClick={reset} className="w-full">
-            🗑️ Sell All Rocks (Reset Collection)
-          </Button>
-        )}
-
-        <div className="text-xs text-muted-foreground text-center space-y-1">
-          <p>⚠️ These NFTs have no real value</p>
-          <p>💰 No actual cryptocurrency involved</p>
-          <p>🪨 Rocks are stored in localStorage, not blockchain</p>
-          <p>📈 Investment advice: Don&apos;t.</p>
+            </CardContent>
+          </Card>
         </div>
-      </CardContent>
-    </Card>
+      )}
+    </div>
   );
 }

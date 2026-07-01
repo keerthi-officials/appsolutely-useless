@@ -30,14 +30,19 @@ const screamTypes = [
   { emoji: "🦖", name: "Dinosaur Scream", description: "ROAAAAAR!" },
 ];
 
+const achievements = [
+  { threshold: 1, label: "First Scream" },
+  { threshold: 10, label: "Loud & Proud" },
+  { threshold: 25, label: "Noise Maker" },
+  { threshold: 50, label: "Scream Master" },
+  { threshold: 100, label: "Legendary" },
+];
+
 export function TapToScreamGame() {
   const [screamCount, setScreamCount] = useState(0);
-  const [currentScream, setCurrentScream] = useState<
-    (typeof screamTypes)[0] | null
-  >(null);
+  const [currentScream, setCurrentScream] = useState<typeof screamTypes[0] | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [soundEnabled, setSOundEnabled] = useState(true);
-  const [screamHistory, setScreamHistory] = useState<string[]>([]);
+  const [soundEnabled, setSoundEnabled] = useState(true);
 
   const scream = () => {
     incrementTaps();
@@ -46,7 +51,6 @@ export function TapToScreamGame() {
       screamTypes[Math.floor(Math.random() * screamTypes.length)];
     setCurrentScream(randomScream);
     setScreamCount((prev) => prev + 1);
-    setScreamHistory((prev) => [randomScream.name, ...prev.slice(0, 4)]);
 
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 500);
@@ -58,7 +62,7 @@ export function TapToScreamGame() {
 
   const toggleSound = () => {
     incrementTaps();
-    setSOundEnabled(!soundEnabled);
+    setSoundEnabled((prev) => !prev);
     playSound("click");
   };
 
@@ -66,36 +70,6 @@ export function TapToScreamGame() {
     incrementTaps();
     setScreamCount(0);
     setCurrentScream(null);
-    setScreamHistory([]);
-  };
-
-  const getScreamLevel = () => {
-    if (screamCount === 0)
-      return { level: "Silent", emoji: "🤐", color: "text-gray-600" };
-    if (screamCount < 5)
-      return { level: "Whisperer", emoji: "🤫", color: "text-blue-600" };
-    if (screamCount < 15)
-      return { level: "Casual Screamer", emoji: "😮", color: "text-green-600" };
-    if (screamCount < 30)
-      return { level: "Loud Person", emoji: "📢", color: "text-orange-600" };
-    if (screamCount < 50)
-      return { level: "Scream Machine", emoji: "🔊", color: "text-red-600" };
-    if (screamCount < 100)
-      return { level: "Banshee", emoji: "👻", color: "text-purple-600" };
-    return { level: "Scream Lord", emoji: "👑", color: "text-yellow-600" };
-  };
-
-  const screamLevel = getScreamLevel();
-
-  const getMotivationalMessage = () => {
-    if (screamCount === 0)
-      return "Let it all out! Tap to release your inner screamer.";
-    if (screamCount < 10)
-      return "Good start! The neighbors are starting to worry.";
-    if (screamCount < 25)
-      return "You're really getting into this screaming thing!";
-    if (screamCount < 50) return "Professional screamer level achieved!";
-    return "You have transcended normal human vocal capabilities.";
   };
 
   return (
@@ -136,102 +110,35 @@ export function TapToScreamGame() {
             </div>
           )}
 
-          <div className="text-center">
-            <Button
-              onClick={scream}
-              size="lg"
-              className={`w-32 h-32 rounded-full text-4xl transition-all duration-300 ${
-                isAnimating ? "scale-110" : "scale-100"
-              } bg-linear-to-br from-red-500 to-orange-600 hover:from-red-600 hover:to-orange-700 shadow-lg`}
-            >
-              😱
-            </Button>
-          </div>
+          <Button
+            onClick={scream}
+            size="lg"
+            className={`w-32 h-32 rounded-full text-4xl transition-all duration-300 ${
+              isAnimating ? "scale-110" : "scale-100"
+            } bg-linear-to-br from-red-500 to-orange-600 hover:from-red-600 hover:to-orange-700 shadow-lg`}
+          >
+            😱
+          </Button>
 
-          <div className="text-center space-y-2">
+          <div>
             <div className="text-4xl font-bold">{screamCount}</div>
             <div className="text-sm text-muted-foreground">Total Screams</div>
-
-            <div className={`text-lg font-semibold ${screamLevel.color}`}>
-              {screamLevel.emoji} {screamLevel.level}
-            </div>
           </div>
-
-          <div className="p-4 bg-linear-to-r from-red-50 to-orange-50 border border-red-200 rounded-lg">
-            <p className="text-sm text-center italic">
-              {getMotivationalMessage()}
-            </p>
-          </div>
-
-          {screamHistory.length > 0 && (
-            <div className="space-y-2">
-              <div className="text-sm font-medium">🎵 Recent Screams:</div>
-              <div className="space-y-1">
-                {screamHistory.map((scream, index) => (
-                  <div
-                    key={index}
-                    className={`text-xs p-2 rounded ${
-                      index === 0
-                        ? "bg-red-100 border border-red-300"
-                        : "bg-gray-100"
-                    }`}
-                  >
-                    {scream}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
 
           {screamCount > 0 && (
-            <div className="space-y-2">
-              <div className="text-sm font-medium">🏆 Scream Achievements:</div>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                {screamCount >= 1 && (
-                  <div className="p-2 bg-blue-100 border border-blue-300 rounded text-center">
-                    First Scream!
-                  </div>
-                )}
-                {screamCount >= 10 && (
-                  <div className="p-2 bg-green-100 border border-green-300 rounded text-center">
-                    Loud & Proud
-                  </div>
-                )}
-                {screamCount >= 25 && (
-                  <div className="p-2 bg-orange-100 border border-orange-300 rounded text-center">
-                    Noise Maker
-                  </div>
-                )}
-                {screamCount >= 50 && (
-                  <div className="p-2 bg-red-100 border border-red-300 rounded text-center">
-                    Scream Master
-                  </div>
-                )}
-                {screamCount >= 100 && (
-                  <div className="p-2 bg-purple-100 border border-purple-300 rounded text-center">
-                    Legendary
-                  </div>
-                )}
-                {screamHistory.length >= 5 && (
-                  <div className="p-2 bg-yellow-100 border border-yellow-300 rounded text-center">
-                    Variety Pack
-                  </div>
-                )}
-              </div>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {achievements
+                .filter((a) => screamCount >= a.threshold)
+                .map((a) => (
+                  <span
+                    key={a.label}
+                    className="text-xs px-2 py-1 border rounded-full bg-muted"
+                  >
+                    {a.label}
+                  </span>
+                ))}
             </div>
           )}
-
-          <div className="text-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <div className="text-sm">
-              ⚠️ Warning: May cause{" "}
-              {soundEnabled ? "actual noise" : "silent confusion"}
-            </div>
-            <div className="text-xs text-muted-foreground mt-1">
-              {soundEnabled
-                ? "Turn off sound if you value your eardrums"
-                : "Sound is disabled - screaming silently"}
-            </div>
-          </div>
 
           {screamCount > 0 && (
             <Button variant="outline" onClick={reset} className="w-full">
