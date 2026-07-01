@@ -3,8 +3,6 @@
 import { games } from "@/lib/game-data";
 import { useMemo } from "react";
 import { getStats } from "@/lib/storage";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { GameCard } from "@/components/game-card";
 
 export default function FavoritesPage() {

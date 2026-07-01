@@ -70,7 +70,7 @@ export function GamePageClient({ slug }: GamePageClientProps) {
         <Button onClick={() => router.push("/")}>
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Home
-        </Button> 
+        </Button>
       </div>
     );
   }

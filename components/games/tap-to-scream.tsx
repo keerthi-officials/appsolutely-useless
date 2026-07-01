@@ -40,7 +40,9 @@ const achievements = [
 
 export function TapToScreamGame() {
   const [screamCount, setScreamCount] = useState(0);
-  const [currentScream, setCurrentScream] = useState<typeof screamTypes[0] | null>(null);
+  const [currentScream, setCurrentScream] = useState<
+    (typeof screamTypes)[0] | null
+  >(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
 

@@ -3,13 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
-import {
-  Heart,
-  Home,
-  LucideProps,
-  Shuffle,
-  User,
-} from "lucide-react";
+import { Heart, Home, LucideProps, User } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 interface navItem {
